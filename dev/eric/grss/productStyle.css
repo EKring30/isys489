@@ -45,8 +45,8 @@
 			img.figures {
 				display: block;
 				border: 1px solid black;
-				margin: 45px 20px;
-				float: left;
+				margin: 0px 40px;
+				float: top;
 				}
 				
 			
@@ -54,7 +54,7 @@
 				display: block;
 				border: 1px solid black;
 				margin: 30px 20px;
-				float: left;
+				float: top;
 				}
 				
 			.error {
