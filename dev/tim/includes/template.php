@@ -12,7 +12,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -43,15 +44,16 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery -->
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/npm.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         if ($(".alert").length > 0)
         {
           $(".alert").fadeOut(5000);
         }
+        <?php if (!empty($jquery)) echo $jquery; ?>
       });
     </script>
     <?php if (!empty($javascript)) echo $javascript; ?>

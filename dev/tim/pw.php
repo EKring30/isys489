@@ -15,6 +15,24 @@
 	$md5hash = "";
 	$sha1hash = "";
 
+	if (!empty($_POST))
+	{
+		if (empty($_POST['terms']))
+			echo "\r\n<br />\r\nError - you MUST agree to the terms.<br />\r\n";
+
+		if (!empty($_POST['dob']))
+		{
+			$today = strtotime(date('Y-m-d H:i:s'));
+		    $birthday = strtotime($_POST['dob']);
+		    $age = ($today - $birthday) / (60*60*24*365);
+		    echo "<br />\r\nAge is " . $age . " years old.<br />\r\n";
+		    if ($age > 18)
+		    	echo "Person is older than 18.<br />\r\n";
+		    elseif ($age < 18)
+		    	echo "Person is younger than 18.<br />\r\n";
+		}
+	}
+
 	if (!empty($_POST['pwhash']))
 	{
 		if (array_key_exists('pw', $_POST['pwhash']))
@@ -42,12 +60,7 @@
 		$content .= "SHA1 hash: " . $sha1hash . " - string is: " . strlen($sha1hash) . " characters long.<br />\r\n";
 	}
 
-	$content .= '<br />
-		<b>Enter a string to be hashed:<br />
-		<form method="post" action="pw.php" name="pwhash">
-		<input type="password" name="pwhash[pw]" id="pw" />
-		<input type="submit" value="Hash It" />
-		</form>'."\r\n";
+	include('includes/form.php');
 
 	include('includes/template.php');
 ?>

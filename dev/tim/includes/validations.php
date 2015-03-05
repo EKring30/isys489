@@ -4,9 +4,11 @@ function validateForm() {
     $firstNamePresent = $firstNameValid = $lastNamePresent = $lastNameValid = false;
     $addressOnePresent = $addressOneValid = $addressTwoPresent = $addressTwoValid = false;
     $cityPresent = $cityValid = $statePresent = $stateValid = $zipPresent = $zipValid = $countryPresent = $countryValid = false;
-    $dobPresent = $dobValid = $phonePresent = $phoneValid = $emailPresent = $emailValid = false;
-    $usernamePresent = $usernameValid = $passwordPresent = $passwordValid = false;
-    $picturePresent = $pictureValid = $termsPresent = $termsValid = false;
+    $dobPresent = $dobValid = $phonePresent = $phoneValid = $emailPresent = $emailValid = $domainCheck = false;
+    $phoneTypePresent = $phoneTypeValid = $usernamePresent = $usernameValid = $passwordPresent = $passwordValid = false;
+    $travelRadiusPresent = $travelRadiusValid = $picturePresent = $pictureValid = $termsPresent = $termsValid = false;
+    $prefContactMethodPresent = $prefContactMethodValid = false;
+    $errors = [];
 
     if (array_key_esists($_POST['firstName']))
     {
@@ -17,86 +19,145 @@ function validateForm() {
     if (array_key_esists($_POST['lastName']))
     {
         $lastNamePresent = true;
-        $lastNameValid = validate_first_name($_POST['lastName']);
+        $lastNameValid = validate_last_name($_POST['lastName']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['address1']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $addressOnePresent = true;
+        $addressOneValid = validate_address_one($_POST['address1']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['address2']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $addressTwoPresent = true;
+        $addressTwoValid = validate_address_two($_POST['address2']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['city']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $cityPresent = true;
+        $cityValid = validate_city($_POST['city']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['state']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $statePresent = true;
+        $stateValid = validate_state($_POST['state']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['zip']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $zipPresent = true;
+        $zipValid = validate_zip($_POST['zip']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['country']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $countryPresent = true;
+        $countryValid = validate_country($_POST['country']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['dob']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $dobPresent = true;
+        $dobValid = validate_dob($_POST['dob']);
+        if (!$dobValid)
+        {
+            $errors["dob"] = "Must be older than 18.";
+        }
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['phone']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $phonePresent = true;
+        $phoneValid = validate_phone($_POST['phone']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['phoneType']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $phoneTypePresent = true;
+        $phoneTypeValid = validate_phone_type($_POST['phoneType']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['email']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $emailPresent = true;
+        if (!empty($_POST['domainCheck']))
+        {
+            $domainCheck = $_POST['domainCheck'];
+        }
+        $emailValid = validate_email($_POST['email'], $domainCheck);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['username']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $usernamePresent = true;
+        $usernameValid = validate_username($_POST['username']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['password']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $passwordPresent = true;
+        $passwordValid = validate_password($_POST['password']);
     }
 
-    if (array_key_esists($_POST['firstName']))
+    if (array_key_esists($_POST['picture']))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
+        $picturePresent = true;
+        $pictureValid = validate_first_name($_POST['picture']);
     }
+
+    if (array_key_esists($_POST['terms']))
+    {
+        $termsPresent = true;
+        $termsValid = true;
+    }
+    elseif (empty($_POST['terms']))
+    {
+        $termsValid = false;
+        $errors["terms"] = "You must agree to the terms of service.";
+    }
+
+    if (array_key_esists($_POST['travelRadius']))
+    {
+        $travelRadiusPresent = true;
+        $travelRadiusValid = validate_travel_radius($_POST['travelRadius']);
+    }
+
+    if (array_key_esists($_POST['prefContactMethod']))
+    {
+        $prefContactMethodPresent = true;
+        $prefContactMethodValid = validate_pref_contact_method($_POST['prefContactMethod']);
+    }
+}
+
+function validate_dob($birthday)
+{
+    $today = strtotime(date('Y-m-d H:i:s'));
+    $birthday = strtotime($birthday);
+    $age = ($today - $birthday) / (60*60*24*365);
+
+    if ($age > 18)
+        return true;
+    else
+        return false;
+}
+
+function validate_travel_radius($radius)
+{
+    if (is_numeric($radius))
+        return true;
+    else
+        return false;
+}
+
+function validate_pref_contact_method($value)
+{
+    if (strtolower($value) == "phone" || strtolower($value) == "email")
+        return true;
+    else
+        return false;
 }
 
 /*  Function:      checkEmail
@@ -111,7 +172,7 @@ function validateForm() {
  * @param string    $email         Email address to validate
  * @param boolean   $domainCheck   Check if the domain exists
  */
-function checkEmail($email, $domainCheck = false)
+function validate_email($email, $domainCheck = false)
 {
     if (preg_match('/^[a-zA-Z0-9\._-]+\@(\[?)[a-zA-Z0-9\-\.]+'.
                    '\.([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $email)) {
@@ -127,14 +188,14 @@ function checkEmail($email, $domainCheck = false)
     return false;
 }
 
-/*  Function:   valid_pass
+/*  Function:   validate_password
     Author:     Paul Gerndt
     Purpose:    Used to validate passwords to ensure minimum length and content
                 requirements are met.
     Created:    2015-02-16  
 */
 
-function valid_pass($candidate) {
+function validate_password($candidate) {
 
     // Declare and Initialize Local Variables
     $CritCount = 0; //Tabulator for keeping track of number of criteria matched
@@ -168,6 +229,6 @@ function valid_pass($candidate) {
     }   
 }
 
-$form->registerRule('checkmail', 'callback', 'checkEmail');
-$form->addRule('email', 'Email is incorrect', 'checkmail', true);
+// $form->registerRule('checkmail', 'callback', 'checkEmail');
+// $form->addRule('email', 'Email is incorrect', 'checkmail', true);
 ?>
