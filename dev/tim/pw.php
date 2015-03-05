@@ -15,10 +15,22 @@
 	$md5hash = "";
 	$sha1hash = "";
 
-	if (!empty($_POST['pw']))
+	if (!empty($_POST['pwhash']))
 	{
-		$md5hash = md5($_POST['pw']);
-		$sha1hash = sha1($_POST['pw']);
+		if (array_key_exists('pw', $_POST['pwhash']))
+		{
+			$pw = $_POST['pwhash']['pw'];
+			if (empty($pw))
+			{
+				$content .= "Error - no value was entered. Please enter a value to hash.<br />\r\n";
+			}
+			else
+			{
+				$md5hash = md5($pw);
+				$sha1hash = sha1($pw);
+			}
+			
+		}
 	}
 
 	if (!empty($md5hash))
@@ -32,8 +44,8 @@
 
 	$content .= '<br />
 		<b>Enter a string to be hashed:<br />
-		<form method="post" action="pw.php">
-		<input type="password" name="pw" id="pw" />
+		<form method="post" action="pw.php" name="pwhash">
+		<input type="password" name="pwhash[pw]" id="pw" />
 		<input type="submit" value="Hash It" />
 		</form>'."\r\n";
 
