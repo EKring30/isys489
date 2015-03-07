@@ -1,4 +1,5 @@
 <?php
+include('database.php');
 
 function validateForm() {
     $firstNamePresent = $firstNameValid = $lastNamePresent = $lastNameValid = false;
@@ -130,6 +131,23 @@ function validateForm() {
         $prefContactMethodPresent = true;
         $prefContactMethodValid = validate_pref_contact_method($_POST['prefContactMethod']);
     }
+}
+
+function validate_username($username)
+{
+    // prepare and bind
+    $stmt = $my_dbhandle->prepare("SELECT username FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($user);
+    $stmt->fetch();
+    $stmt->close();
+    
+    if (empty($user))
+        return true;
+    else
+        return false;
+    
 }
 
 function validate_dob($birthday)

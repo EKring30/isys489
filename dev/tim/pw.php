@@ -2,6 +2,7 @@
 	// Start the session
 	session_start();
 	include('includes/global-vars.php');
+	include('includes/validations.php');
 	$title = "Hash Password";
 	$page = "pw";
 	$content = "";
@@ -17,6 +18,14 @@
 
 	if (!empty($_POST))
 	{
+		if (!empty($_POST['username']))
+		{
+			$userValid = validate_username($_POST['username']);
+			if ($userValid)
+				echo "<br />\r\nUsername is valid.<br />\r\n";
+			else
+				echo "<br />\r\nUsername is invalid.<br />\r\n";
+		}
 		if (empty($_POST['terms']))
 			echo "\r\n<br />\r\nError - you MUST agree to the terms.<br />\r\n";
 
@@ -33,21 +42,17 @@
 		}
 	}
 
-	if (!empty($_POST['pwhash']))
+	if (!empty($_POST['pw']))
 	{
-		if (array_key_exists('pw', $_POST['pwhash']))
+		$pw = $_POST['pw'];
+		if (empty($pw))
 		{
-			$pw = $_POST['pwhash']['pw'];
-			if (empty($pw))
-			{
-				$content .= "Error - no value was entered. Please enter a value to hash.<br />\r\n";
-			}
-			else
-			{
-				$md5hash = md5($pw);
-				$sha1hash = sha1($pw);
-			}
-			
+			$content .= "Error - no value was entered. Please enter a value to hash.<br />\r\n";
+		}
+		else
+		{
+			$md5hash = md5($pw);
+			$sha1hash = sha1($pw);
 		}
 	}
 
