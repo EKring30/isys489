@@ -12,6 +12,20 @@ footer {
 	padding-top: 15px;
 }
 
+select {
+    width: 174px;
+}
+
+.right {
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.left {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
 .form-signin
 {
     max-width: 330px;

@@ -3,8 +3,9 @@
 	session_start();
 	include('includes/global-vars.php');
 	include('includes/validations.php');
-	$title = "Hash Password";
-	$page = "pw";
+
+	$title = "Form to Test Validations";
+	$page = "test";
 	$content = "";
 
 	if (isset($_SESSION["notice"]))
@@ -18,33 +19,24 @@
 
 	if (!empty($_POST))
 	{
-		if (!empty($_POST['username']))
-		{
-			$userValid = validate_username($_POST['username']);
-			if ($userValid)
-				echo "<br />\r\nUsername is valid.<br />\r\n";
-			else
-				echo "<br />\r\nUsername is invalid.<br />\r\n";
-		}
-		if (empty($_POST['terms']))
-			echo "\r\n<br />\r\nError - you MUST agree to the terms.<br />\r\n";
+		$formIsValid = validateForm();
 
-		if (!empty($_POST['dob']))
+		if (is_array($formIsValid))
 		{
-			$today = strtotime(date('Y-m-d H:i:s'));
-		    $birthday = strtotime($_POST['dob']);
-		    $age = ($today - $birthday) / (60*60*24*365);
-		    echo "<br />\r\nAge is " . $age . " years old.<br />\r\n";
-		    if ($age > 18)
-		    	echo "Person is older than 18.<br />\r\n";
-		    elseif ($age < 18)
-		    	echo "Person is younger than 18.<br />\r\n";
+			echo '<br /><div class="row"><div class="col-md-6 col-md-offset-3 bg-danger">';
+			foreach ($formIsValid as $k => $v)
+			{
+				echo $v . "<br />\r\n";
+			}
+			echo '</div></div>';
 		}
+		else
+			echo "Form is valid.<br />\r\n";
 	}
 
-	if (!empty($_POST['pw']))
+	if (!empty($_POST['pwd']))
 	{
-		$pw = $_POST['pw'];
+		$pw = $_POST['pwd'];
 		if (empty($pw))
 		{
 			$content .= "Error - no value was entered. Please enter a value to hash.<br />\r\n";
