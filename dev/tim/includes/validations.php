@@ -10,7 +10,7 @@ function validateForm() {
     $travelRadiusPresent = $travelRadiusValid = $picturePresent = $pictureValid = $termsPresent = $termsValid = false;
     $prefContactMethodPresent = $prefContactMethodValid = false;
     $formIsValid = false;
-    $errors = [];
+    $errors = array();
 
     if (!empty($_POST['firstName']))
     {
@@ -599,7 +599,4 @@ function validate_password($candidate)
     else
         return false;
 }
-
-// $form->registerRule('checkmail', 'callback', 'checkEmail');
-// $form->addRule('email', 'Email is incorrect', 'checkmail', true);
 ?>
