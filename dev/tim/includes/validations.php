@@ -284,7 +284,7 @@ function validate_first_name($fname)
 {
     if (!empty($fname))
     {
-        if (preg_match('/^[a-zA-Z]{2,50}$/', $fname))
+        if (!empty(trim(str_replace(range(0,9), '', $fname)))
             return true;
         else
             return false;
@@ -297,7 +297,7 @@ function validate_last_name($lname)
 {
     if (!empty($lname))
     {
-        if (preg_match('/^[a-zA-Z]{2,50}$/', $lname))
+        if (!empty(trim(str_replace(range(0,9), '', $lname)))
             return true;
         else
             return false;
