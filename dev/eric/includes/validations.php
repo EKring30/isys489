@@ -608,7 +608,7 @@ function validate_job_title($title)
 {
     if (!empty($title))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $title)))
+        if (!empty(trim(str_replace(range(0,9), '', $title))))
             return true;
         else
             return false;
