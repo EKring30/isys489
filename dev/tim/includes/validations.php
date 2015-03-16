@@ -366,7 +366,8 @@ function validate_first_name($fname)
 {
     if (!empty($fname))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $fname))))
+        $fname_val = trim(str_replace(range(0,9), '', $fname));
+        if (!empty($fname_val))
             return true;
         else
             return false;
