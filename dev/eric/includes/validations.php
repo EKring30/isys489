@@ -8,9 +8,16 @@ function validateForm() {
     $dobPresent = $dobValid = $phonePresent = $phoneValid = $emailPresent = $emailValid = $domainCheck = false;
     $phoneTypePresent = $phoneTypeValid = $usernamePresent = $usernameValid = $passwordPresent = $passwordValid = false;
     $travelRadiusPresent = $travelRadiusValid = $picturePresent = $pictureValid = $termsPresent = $termsValid = false;
-    $prefContactMethodPresent = $prefContactMethodValid = false;
+    $prefContactMethodPresent = $prefContactMethodValid = $jobTitlePresent = $jobTitleValid = false;
+    $descriptionPresent = $descriptionValid = $categoryPresent = $categoryValid = false;
+    $pricePresent = $priceValid = $tagsPresent = $tagsValid = false;
+    $formName = "";
+
     $formIsValid = false;
     $errors = array();
+
+    if (!empty($_POST['formname']))
+        $formName = $_POST['formname'];
 
     if (!empty($_POST['firstName']))
     {
@@ -183,7 +190,7 @@ function validateForm() {
     }
     else
     {
-        if (!empty($_POST['formname']) && $_POST['formname'] == "serviceConsumer")
+        if (!empty($formName) && $formName == "serviceConsumer")
         {
             $errors["nickname"] = "Nickname is missing.";
         }
@@ -248,7 +255,7 @@ function validateForm() {
     }
     else
     {
-        if (!empty($_POST['formname']) && $_POST['formname'] == "serviceProvider")
+        if (!empty($formName) && $formName == "serviceProvider")
         {
             $errors["travelRadius"] = "Travel radius is missing.";
         }
@@ -269,9 +276,84 @@ function validateForm() {
     else
         $errors["prefContactMethod"] = "Preferred contact method missing.";
 
-    if ($firstNameValid && $lastNameValid && $addressOneValid && $addressTwoValid && $nicknameValid && $travelRadiusValid && $pictureValid && $cityValid && $stateValid && $zipValid && $countryValid && $dobValid && $phoneValid && $emailValid && $phoneTypeValid && $usernameValid && $passwordValid && $termsValid && $prefContactMethodValid)
+    if (!empty($_POST['jobtitle']))
     {
-        $formIsValid = true;
+        $jobTitlePresent = true;
+        $jobTitleValid = validate_job_title($_POST['jobtitle']);
+        if (!$jobTitleValid)
+        {
+            $formIsValid = false;
+            $errors["jobTitle"] = "Job title is invalid.";
+        }
+    }
+    else
+        $errors["jobTitle"] = "Job title is missing.";
+
+    if (!empty($_POST['description']))
+    {
+        $descriptionPresent = true;
+        $descriptionValid = validate_description($_POST['description']);
+        if (!$descriptionValid)
+        {
+            $formIsValid = false;
+            $errors["description"] = "Description is invalid.";
+        }
+    }
+    else
+        $errors["description"] = "Description is missing.";
+
+    if (!empty($_POST['category']))
+    {
+        $categoryPresent = true;
+        $categoryValid = validate_category($_POST['category']);
+        if (!$categoryValid)
+        {
+            $formIsValid = false;
+            $errors["category"] = "Category is invalid.";
+        }
+    }
+    else
+        $errors["category"] = "Category is missing.";
+
+    if (!empty($_POST['price']))
+    {
+        $pricePresent = true;
+        $priceValid = validate_price($_POST['price']);
+        if (!$priceValid)
+        {
+            $formIsValid = false;
+            $errors["price"] = "Price is invalid.";
+        }
+    }
+    else
+        $errors["price"] = "Price is missing.";
+
+    if (!empty($_POST['tags']))
+    {
+        $tagsPresent = true;
+        $tagsValid = validate_tags($_POST['tags']);
+        if (!$tagsValid)
+        {
+            $formIsValid = false;
+            $errors["tags"] = "Tags are invalid.";
+        }
+    }
+    else
+        $errors["tags"] = "Tags are missing.";
+
+    if ($formName == "postService")
+    {
+        if ($jobTitleValid && $descriptionValid && $categoryValid && $priceValid && $tagsValid)
+        {
+            $formIsValid = true;
+        }
+    }
+    else 
+    {
+        if ($firstNameValid && $lastNameValid && $addressOneValid && $addressTwoValid && $nicknameValid && $travelRadiusValid && $pictureValid && $cityValid && $stateValid && $zipValid && $countryValid && $dobValid && $phoneValid && $emailValid && $phoneTypeValid && $usernameValid && $passwordValid && $termsValid && $prefContactMethodValid)
+        {
+            $formIsValid = true;
+        }
     }
 
     if (!$formIsValid)
@@ -284,7 +366,7 @@ function validate_first_name($fname)
 {
     if (!empty($fname))
     {
-        if (preg_match('/^[a-zA-Z]{2,50}$/', $fname))
+        if (!empty(trim(str_replace(range(0,9), '', $fname)))
             return true;
         else
             return false;
@@ -297,7 +379,7 @@ function validate_last_name($lname)
 {
     if (!empty($lname))
     {
-        if (preg_match('/^[a-zA-Z]{2,50}$/', $lname))
+        if (!empty(trim(str_replace(range(0,9), '', $lname)))
             return true;
         else
             return false;
@@ -522,6 +604,120 @@ function validate_pref_contact_method($value)
         return false;
 }
 
+function validate_job_title($title)
+{
+    if (!empty($title))
+    {
+        if (!empty(trim(str_replace(range(0,9), '', $title)))
+            return true;
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+function validate_description($description)
+{
+    if (!empty($description))
+    {
+        if (!empty($description) && strlen(trim($description)) > 5)
+        {
+            $containsBadWords = filter_bad_words($description, "string");
+            if ($containsBadWords)
+            {
+                return false
+            }
+            else
+                return true;
+        }
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+function validate_category($category)
+{
+    if (!empty($category))
+    {
+        $catArr = array('Yard','Business','Repairs','Creative','Beauty','Mechanical','Automotive','Computers','Event','Household','Labor / Moving','Legal','Lessons','Marine','Pets');
+        if (in_array($category, $catArr))
+            return true;
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+function validate_price($price)
+{
+    if (!empty($price))
+    {
+        if (preg_match('/^\d+(?:\.\d{2})?$/', $price) == '0')
+            return false;
+        else
+            return true;
+    }
+    else
+        return false;
+}
+
+function validate_tags($tags, "word")
+{
+    if (!empty($tags))
+    {
+        $tagsAreValid = -1;
+        $tagsArr = explode(',', $tags);
+        foreach($tagsArr as $tag)
+        {
+            if (!empty($tag))
+            {
+                $containsBadWords = filter_bad_words($tag);
+                if ($containsBadWords)
+                {
+                    $tagsAreValid = false;
+                    break;
+                }
+                else
+                    $tagsAreValid = true;
+
+                return $tagsAreValid;
+            }
+            else
+                return false;
+        }
+        
+    }
+    else
+        return false;
+}
+
+function filter_bad_words($str, $type)
+{
+    $words = array('bitch','bitches','blow job','blowjob','buttfucker','child pornography','clusterfuck','cocaine','crack cocaine','damn','drug','drugs','dumbass','dumb ass','dumbfuck','dumbshit','ecstasy','fuck','fucked','fucking','hell','heroin','human trafficking','jackass','marijuana','meth','methamphetamine','morphine','mother fucker','motherfucker','mother fucking','motherfucking','nigger','opium','penis','pornography','prostitute','sex','sexual','shit','vagina','whore');
+    
+    if ($type == "word")
+    {
+        if (in_array($str, $words))
+            return true;
+        else
+            return false;
+    }
+    elseif ($type == "string")
+    {
+        foreach($words as $bad)
+        {
+            if (stripos($str, $bad) !== FALSE)
+                return true;
+        }
+
+        return false;
+    }
+}
+
 /*  Function:      checkEmail
     Author:        Emily Kring
     Purpose:    Used to validate email addresses to ensure format and domain
@@ -599,7 +795,4 @@ function validate_password($candidate)
     else
         return false;
 }
-
-// $form->registerRule('checkmail', 'callback', 'checkEmail');
-// $form->addRule('email', 'Email is incorrect', 'checkmail', true);
 ?>
