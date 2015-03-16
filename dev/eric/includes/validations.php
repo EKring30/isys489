@@ -366,7 +366,7 @@ function validate_first_name($fname)
 {
     if (!empty($fname))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $fname)))
+        if (!empty(trim(str_replace(range(0,9), '', $fname))))
             return true;
         else
             return false;
@@ -379,7 +379,7 @@ function validate_last_name($lname)
 {
     if (!empty($lname))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $lname)))
+        if (!empty(trim(str_replace(range(0,9), '', $lname))))
             return true;
         else
             return false;
