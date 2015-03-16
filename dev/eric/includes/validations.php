@@ -380,7 +380,8 @@ function validate_last_name($lname)
 {
     if (!empty($lname))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $lname))))
+        $lname_val = trim(str_replace(range(0,9), '', $lname));
+        if (!empty($lname_val))
             return true;
         else
             return false;
