@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<form action="handle_form.php" method="post" >
-
+<input type="hidden" name="formname" value="postService" />
 			<p> 
 		
         <h1 id="main">Job Request</h1>
