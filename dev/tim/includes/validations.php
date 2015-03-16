@@ -339,7 +339,7 @@ function validateForm() {
         }
     }
     else
-        $errors["tags"] = "Tags are missing.";
+        $tagsValid = true;
 
     if ($formName == "postService")
     {
