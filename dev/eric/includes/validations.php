@@ -626,7 +626,7 @@ function validate_description($description)
             $containsBadWords = filter_bad_words($description, "string");
             if ($containsBadWords)
             {
-                return false
+                return false;
             }
             else
                 return true;
