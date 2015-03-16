@@ -29,7 +29,7 @@
 					&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					Price <br>
 					<label for="category">
-						<select id= "category" name="category">
+						<select id="category" name="category">
 						 
 							<option value="">Category</option>
 							<option value="Yard Work">Yard</option>
@@ -53,7 +53,7 @@
 					&nbsp;&nbsp;
 					
 					<label for="Price">
-						<input type="text" id="Price" name="Price" size="36" maxlength="10" placeholder="Max in US dollars you will pay" />
+						<input type="text" id="Price" name="price" size="36" maxlength="10" placeholder="Max in US dollars you will pay" />
 					</label> <br><br>
 	
 					Tags<br>

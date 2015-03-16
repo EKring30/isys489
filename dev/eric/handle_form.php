@@ -8,7 +8,7 @@
 </head>
 <body>
 <?php # Script 1.0 - handle_form.php
-include('includes/global-vars.php');
+
 	include('includes/validations.php');
 	if (!empty($_POST))
 	{

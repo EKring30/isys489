@@ -347,6 +347,15 @@ function validateForm() {
         {
             $formIsValid = true;
         }
+        else
+        {
+            $ps_fields = array("jobTitle", "description", "category", "price", "tags");
+            foreach ($errors as $k => $v)
+            {
+                if (!in_array($k, $ps_fields))
+                    unset($errors[$k]);
+            }
+        }
     }
     else 
     {
@@ -610,7 +619,8 @@ function validate_job_title($title)
 {
     if (!empty($title))
     {
-        if (!empty(trim(str_replace(range(0,9), '', $title))))
+        $title_val = trim(str_replace(range(0,9), '', $title));
+        if (!empty($title_val))
             return true;
         else
             return false;
@@ -644,7 +654,7 @@ function validate_category($category)
 {
     if (!empty($category))
     {
-        $catArr = array('Yard','Business','Repairs','Creative','Beauty','Mechanical','Automotive','Computers','Event','Household','Labor / Moving','Legal','Lessons','Marine','Pets');
+        $catArr = array('Yard Work','Business','Repairs','Creative','Beauty','Mechanical','Automotive','Computers','Event','Household','Labor / Moving','Legal','Lessons','Marine','Pets');
         if (in_array($category, $catArr))
             return true;
         else
