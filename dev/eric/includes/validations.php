@@ -665,7 +665,7 @@ function validate_price($price)
         return false;
 }
 
-function validate_tags($tags, "word")
+function validate_tags($tags)
 {
     if (!empty($tags))
     {
@@ -675,7 +675,7 @@ function validate_tags($tags, "word")
         {
             if (!empty($tag))
             {
-                $containsBadWords = filter_bad_words($tag);
+                $containsBadWords = filter_bad_words($tag, "word");
                 if ($containsBadWords)
                 {
                     $tagsAreValid = false;
