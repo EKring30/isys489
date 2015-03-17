@@ -287,7 +287,10 @@ function validateForm() {
         }
     }
     else
-        $errors["jobTitle"] = "Job title is missing.";
+    {
+        if ($formName == "postService")
+            $errors["jobTitle"] = "Job title is missing.";
+    }
 
     if (!empty($_POST['description']))
     {
@@ -300,7 +303,10 @@ function validateForm() {
         }
     }
     else
-        $errors["description"] = "Description is missing.";
+    {
+        if ($formName == "postService")
+            $errors["description"] = "Description is missing.";
+    }
 
     if (!empty($_POST['category']))
     {
@@ -313,7 +319,10 @@ function validateForm() {
         }
     }
     else
-        $errors["category"] = "Category is missing.";
+    {
+        if ($formName == "postService")
+            $errors["category"] = "Category is missing.";
+    }
 
     if (!empty($_POST['price']))
     {
@@ -326,7 +335,10 @@ function validateForm() {
         }
     }
     else
-        $errors["price"] = "Price is missing.";
+    {
+        if ($formName == "postService")
+            $errors["price"] = "Price is missing.";
+    }
 
     if (!empty($_POST['tags']))
     {
