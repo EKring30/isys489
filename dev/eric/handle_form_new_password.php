@@ -25,11 +25,9 @@
 		}
 		else
 			echo "<h1>Thank You!</h1>
-	<p>Your request has been posted to the requested job newsfeed a service provider will be in 
-	contact with you once they are willing to provide your service.<br/>\r\n";
+	<p>Your password has been successfully changed.<br/>\r\n";
 	}
 ?>
-
 <p><b>Click here to</b> <a href="changes_password.php">Return to Change your Password</a>.  </p>
 
 </body>

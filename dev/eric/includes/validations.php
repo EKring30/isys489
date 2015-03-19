@@ -21,7 +21,7 @@ function validateForm() {
 
     if ($formName == "changes_password")
     {
-        $currentPwValid = $newPwValid = $newPwConfValid = false;
+        $currentPwValid = $newPwValid = $newPwConfValid = $passwordsMatch = false;
 
         if (!empty($_POST['currentPassword']))
         {
@@ -29,7 +29,7 @@ function validateForm() {
             // Hash the password in the post, and then query the database
             // Check the password hash vs the hash in the database,
             // and then return true / false based on the hash comparison.
-            return true;
+            $currentPwValid = true;
         }
         else
             $errors["currentPassword"] = "Current password is missing.";
@@ -39,7 +39,7 @@ function validateForm() {
             $newPwValid = validate_password($_POST['newPassword']);
             if (!$newPwValid)
             {
-                $errors["newPassword"] = "New passowrd does not meet password requirements.";
+                $errors["newPassword"] = "New password does not meet password requirements.";
             }
         }
         else
@@ -47,16 +47,26 @@ function validateForm() {
 
         if (!empty($_POST['confirmNewPassword']))
         {
+            if (!empty($_POST['newPassword']))
+            {
+                if (strpos($_POST['newPassword'], $_POST['confirmNewPassword']) === FALSE)
+                    $errors["passwordMatch"] = "New password and confirmation do not match.";
+                else
+                    $passwordsMatch = true;
+            }
+            else
+                $erros["confirmNewPassword"] = "New password and confirmation do not match.";
+
             $newPwConfValid = validate_password($_POST['confirmNewPassword']);
             if (!$newPwConfValid)
             {
-                $errors["confirmNewPassword"] = "New passowrd does not meet password requirements.";
+                $errors["confirmNewPassword"] = "New password confirmation does not meet password requirements.";
             }
         }
         else
             $errors['confirmNewPassword'] = "New password confirmation is missing.";
 
-        if ($currentPwValid && $newPwValid && $newPwConfValid)
+        if ($currentPwValid && $newPwValid && $newPwConfValid && $passwordsMatch)
         {
             $formIsValid = true;
         }
@@ -846,11 +856,11 @@ function validate_password($candidate)
 
          */
         // Test for each requirement 
-        if (preg_match('$\S*(?=\S{8,})$', $candidate)) $CritCount = $CritCount + 10; // Value of 10 for minimum length
-        if (preg_match('$\S*[a-z]$', $candidate)) $CritCount = $CritCount + 1;  //Contains lower case a-z
-        if (preg_match('$\S*[A-Z]$', $candidate)) $CritCount = $CritCount + 1;  //Contains UPPER case A-Z
-        if (preg_match('$\S*[\d]$', $candidate)) $CritCount = $CritCount + 1;   //Contains at least one numeric digit
-        if (preg_match('$\S*[\W]$', $candidate)) $CritCount = $CritCount + 1;   //Contains at least one special Character (!@#$%^&*()-_, etc.)
+        if (strlen($candidate) >= 8) $CritCount = $CritCount + 10; // Value of 10 for minimum length
+        if (preg_match('/[a-z]/', $candidate)) $CritCount = $CritCount + 1;  //Contains lower case a-z
+        if (preg_match('/[A-Z]/', $candidate)) $CritCount = $CritCount + 1;  //Contains UPPER case A-Z
+        if (preg_match('/[\d]/', $candidate)) $CritCount = $CritCount + 1;   //Contains at least one numeric digit
+        if (preg_match('/[^a-zA-Z\d]/', $candidate)) $CritCount = $CritCount + 1;   //Contains at least one special Character (!@#$%^&*()-_, etc.)
         
         if ($CritCount > 12) //Meets minimum length, plus 3 additional criteria
         {
