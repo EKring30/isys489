@@ -54,7 +54,7 @@ function validateForm() {
             }
         }
         else
-            $errors['confirmNewPassword'] = "New password confirmation is missing."
+            $errors['confirmNewPassword'] = "New password confirmation is missing.";
 
         if ($currentPwValid && $newPwValid && $newPwConfValid)
         {
