@@ -19,361 +19,406 @@ function validateForm() {
     if (!empty($_POST['formname']))
         $formName = $_POST['formname'];
 
-    if (!empty($_POST['firstName']))
+    if (!empty($formName == "changes_password"))
     {
-        $firstNamePresent = true;
-        $firstNameValid = validate_first_name($_POST['firstName']);
-        if (!$firstNameValid)
-        {
-            $formIsValid = false;
-            $errors["firstName"] = "First name is invalid.";
-        }
-    }
-    else
-        $errors["firstName"] = "First name is missing.";
+        $currentPwValid = $newPwValid = $newPwConfValid = false;
 
-    if (!empty($_POST['lastName']))
-    {
-        $lastNamePresent = true;
-        $lastNameValid = validate_last_name($_POST['lastName']);
-        if (!$lastNameValid)
+        if (!empty($_POST['currentPassword']))
         {
-            $formIsValid = false;
-            $errors["lastName"] = "Last name is invalid.";
-        }
-    }
-    else
-        $errors["lastName"] = "Last name is missing.";
-
-    if (!empty($_POST['address1']))
-    {
-        $addressOnePresent = true;
-        $addressOneValid = validate_address_one($_POST['address1']);
-        if (!$addressOneValid)
-        {
-            $formIsValid = false;
-            $errors["address1"] = "Address 1 is invalid.";
-        }
-    }
-    else
-        $errors["address1"] = "Address 1 is missing.";
-
-    if (!empty($_POST['address2']))
-    {
-        $addressTwoPresent = true;
-        $addressTwoValid = validate_address_two($_POST['address2']);
-        if (!$addressTwoValid)
-        {
-            $formIsValid = false;
-            $errors["address2"] = "Address 2 is invalid.";
-        }
-    }
-    else
-        $addressTwoValid = true;
-
-    if (!empty($_POST['city']))
-    {
-        $cityPresent = true;
-        $cityValid = validate_city($_POST['city']);
-        if (!$cityValid)
-        {
-            $formIsValid = false;
-            $errors["city"] = "City is invalid.";
-        }
-    }
-    else
-        $errors["city"] = "City is missing.";
-
-    if (!empty($_POST['state']))
-    {
-        $statePresent = true;
-        $stateValid = validate_state($_POST['state']);
-        if (!$stateValid)
-        {
-            $formIsValid = false;
-            $errors["state"] = "Last name is invalid.";
-        }
-    }
-    else
-        $errors["state"] = "State is missing.";
-
-    if (!empty($_POST['zip']))
-    {
-        $zipPresent = true;
-        $zipValid = validate_zip($_POST['zip']);
-        if (!$zipValid)
-        {
-            $formIsValid = false;
-            $errors["zip"] = "Zip code is invalid.";
-        }
-    }
-    else
-        $errors["zip"] = "Zip code is missing.";
-
-    if (!empty($_POST['country']))
-    {
-        $countryPresent = true;
-        $countryValid = validate_country($_POST['country']);
-        if (!$countryValid)
-        {
-            $formIsValid = false;
-            $errors["country"] = "Country is invalid.";
-        }
-    }
-    else
-        $errors["country"] = "Country is missing.";
-
-    if (!empty($_POST['dob']))
-    {
-        $dobPresent = true;
-        $dobValid = validate_dob($_POST['dob']);
-        if (!$dobValid)
-        {
-            $errors["dob"] = "Must be older than 18.";
-        }
-    }
-    else
-        $errors["dob"] = "Date of birth is missing.";
-
-    if (!empty($_POST['phone']))
-    {
-        $phonePresent = true;
-        $phoneValid = validate_phone($_POST['phone']);
-        if (!$phoneValid)
-        {
-            $formIsValid = false;
-            $errors["phone"] = "Phone number is invalid.";
-        }
-    }
-    else
-        $errors["phone"] = "Phone is missing.";
-
-    if (!empty($_POST['phoneType']))
-    {
-        $phoneTypePresent = true;
-        $phoneTypeValid = validate_phone_type($_POST['phoneType']);
-        if (!$phoneTypeValid)
-        {
-            $formIsValid = false;
-            $errors["phoneType"] = "Phone type is invalid.";
-        }
-    }
-    else
-        $errors["phoneType"] = "Phone type is missing.";
-
-    if (!empty($_POST['email']))
-    {
-        $emailPresent = true;
-        if (!empty($_POST['domainCheck']))
-        {
-            $domainCheck = $_POST['domainCheck'];
-        }
-        $emailValid = validate_email($_POST['email'], $domainCheck);
-        if (!$emailValid)
-        {
-            $formIsValid = false;
-            $errors["email"] = "E-mail is invalid.";
-        }
-    }
-    else
-        $errors["email"] = "Email is missing.";
-
-    if (!empty($_POST['nickname']))
-    {
-        $nicknamePresent = true;
-        $nicknameValid = validate_nickname($_POST['nickname']);
-        if (!$nicknameValid)
-        {
-            $formIsValid = false;
-            $errors["nickname"] = "Nickname is invalid.";
-        }
-    }
-    else
-    {
-        if (!empty($formName) && $formName == "serviceConsumer")
-        {
-            $errors["nickname"] = "Nickname is missing.";
+            // Here we'll need to get the current logged in user's ID
+            // Hash the password in the post, and then query the database
+            // Check the password hash vs the hash in the database,
+            // and then return true / false based on the hash comparison.
+            return true;
         }
         else
-            $nicknameValid = true;
-    }
+            $errors["currentPassword"] = "Current password is missing.";
 
-    if (!empty($_POST['username']))
-    {
-        $usernamePresent = true;
-        $usernameValid = validate_username($_POST['username']);
-        if (!$usernameValid)
+        if (!empty($_POST['newPassword']))
         {
-            $formIsValid = false;
-            $errors["username"] = "Username is invalid.";
-        }
-    }
-    else
-        $errors["username"] = "Username is missing.";
-
-    if (!empty($_POST['pwd']))
-    {
-        $passwordPresent = true;
-        $passwordValid = validate_password($_POST['pwd']);
-        if (!$passwordValid)
-        {
-            $formIsValid = false;
-            $errors["password"] = "Password is invalid.";
-        }
-    }
-    else
-        $errors["password"] = "Password is missing.";
-
-    if (!empty($_POST['picture']))
-    {
-        $picturePresent = true;
-        $pictureValid = validate_picture($_POST['picture']);
-        if (!$pictureValid)
-        {
-            $formIsValid = false;
-            $errors["picture"] = "Picture is invalid.";
-        }
-    }
-    else
-        $pictureValid = true;
-
-    if (empty($_POST['terms']))
-    {
-        $formIsValid = false;
-        $errors["terms"] = "You must agree to the terms of service.";
-    }
-
-    if (!empty($_POST['travelRadius']))
-    {
-        $travelRadiusPresent = true;
-        $travelRadiusValid = validate_travel_radius($_POST['travelRadius']);
-        if (!$travelRadiusValid)
-        {
-            $formIsValid = false;
-            $errors["travelRadius"] = "Travel radius is invalid.";
-        }
-    }
-    else
-    {
-        if (!empty($formName) && $formName == "serviceProvider")
-        {
-            $errors["travelRadius"] = "Travel radius is missing.";
-        }
-        else
-            $travelRadiusValid = true;
-    }
-
-    if (!empty($_POST['prefContactMethod']))
-    {
-        $prefContactMethodPresent = true;
-        $prefContactMethodValid = validate_pref_contact_method($_POST['prefContactMethod']);
-        if (!$prefContactMethodValid)
-        {
-            $formIsValid = false;
-            $errors["prefContactMethod"] = "Preferred contact method is invalid.";
-        }
-    }
-    else
-        $errors["prefContactMethod"] = "Preferred contact method missing.";
-
-    if (!empty($_POST['jobtitle']))
-    {
-        $jobTitlePresent = true;
-        $jobTitleValid = validate_job_title($_POST['jobtitle']);
-        if (!$jobTitleValid)
-        {
-            $formIsValid = false;
-            $errors["jobTitle"] = "Job title is invalid.";
-        }
-    }
-    else
-    {
-        if ($formName == "postService")
-            $errors["jobTitle"] = "Job title is missing.";
-    }
-
-    if (!empty($_POST['description']))
-    {
-        $descriptionPresent = true;
-        $descriptionValid = validate_description($_POST['description']);
-        if (!$descriptionValid)
-        {
-            $formIsValid = false;
-            $errors["description"] = "Description is invalid.";
-        }
-    }
-    else
-    {
-        if ($formName == "postService")
-            $errors["description"] = "Description is missing.";
-    }
-
-    if (!empty($_POST['category']))
-    {
-        $categoryPresent = true;
-        $categoryValid = validate_category($_POST['category']);
-        if (!$categoryValid)
-        {
-            $formIsValid = false;
-            $errors["category"] = "Category is invalid.";
-        }
-    }
-    else
-    {
-        if ($formName == "postService")
-            $errors["category"] = "Category is missing.";
-    }
-
-    if (!empty($_POST['price']))
-    {
-        $pricePresent = true;
-        $priceValid = validate_price($_POST['price']);
-        if (!$priceValid)
-        {
-            $formIsValid = false;
-            $errors["price"] = "Price is invalid.";
-        }
-    }
-    else
-    {
-        if ($formName == "postService")
-            $errors["price"] = "Price is missing.";
-    }
-
-    if (!empty($_POST['tags']))
-    {
-        $tagsPresent = true;
-        $tagsValid = validate_tags($_POST['tags']);
-        if (!$tagsValid)
-        {
-            $formIsValid = false;
-            $errors["tags"] = "Tags are invalid.";
-        }
-    }
-    else
-        $tagsValid = true;
-
-    if ($formName == "postService")
-    {
-        if ($jobTitleValid && $descriptionValid && $categoryValid && $priceValid && $tagsValid)
-        {
-            $formIsValid = true;
-        }
-        else
-        {
-            $ps_fields = array("jobTitle", "description", "category", "price", "tags");
-            foreach ($errors as $k => $v)
+            $newPwValid = validate_password($_POST['newPassword']);
+            if (!$newPwValid)
             {
-                if (!in_array($k, $ps_fields))
-                    unset($errors[$k]);
+                $errors["newPassword"] = "New passowrd does not meet password requirements.";
             }
         }
-    }
-    else 
-    {
-        if ($firstNameValid && $lastNameValid && $addressOneValid && $addressTwoValid && $nicknameValid && $travelRadiusValid && $pictureValid && $cityValid && $stateValid && $zipValid && $countryValid && $dobValid && $phoneValid && $emailValid && $phoneTypeValid && $usernameValid && $passwordValid && $termsValid && $prefContactMethodValid)
+        else
+            $errors["newPassword"] = "New password is missing.";
+
+        if (!empty($_POST['confirmNewPassword']))
+        {
+            $newPwConfValid = validate_password($_POST['confirmNewPassword']);
+            if (!$newPwConfValid)
+            {
+                $errors["confirmNewPassword"] = "New passowrd does not meet password requirements.";
+            }
+        }
+        else
+            $errors['confirmNewPassword'] = "New password confirmation is missing."
+
+        if ($currentPwValid && $newPwValid && $newPwConfValid)
         {
             $formIsValid = true;
+        }
+    }
+    else
+    {
+        if (!empty($_POST['firstName']))
+        {
+            $firstNamePresent = true;
+            $firstNameValid = validate_first_name($_POST['firstName']);
+            if (!$firstNameValid)
+            {
+                $formIsValid = false;
+                $errors["firstName"] = "First name is invalid.";
+            }
+        }
+        else
+            $errors["firstName"] = "First name is missing.";
+
+        if (!empty($_POST['lastName']))
+        {
+            $lastNamePresent = true;
+            $lastNameValid = validate_last_name($_POST['lastName']);
+            if (!$lastNameValid)
+            {
+                $formIsValid = false;
+                $errors["lastName"] = "Last name is invalid.";
+            }
+        }
+        else
+            $errors["lastName"] = "Last name is missing.";
+
+        if (!empty($_POST['address1']))
+        {
+            $addressOnePresent = true;
+            $addressOneValid = validate_address_one($_POST['address1']);
+            if (!$addressOneValid)
+            {
+                $formIsValid = false;
+                $errors["address1"] = "Address 1 is invalid.";
+            }
+        }
+        else
+            $errors["address1"] = "Address 1 is missing.";
+
+        if (!empty($_POST['address2']))
+        {
+            $addressTwoPresent = true;
+            $addressTwoValid = validate_address_two($_POST['address2']);
+            if (!$addressTwoValid)
+            {
+                $formIsValid = false;
+                $errors["address2"] = "Address 2 is invalid.";
+            }
+        }
+        else
+            $addressTwoValid = true;
+
+        if (!empty($_POST['city']))
+        {
+            $cityPresent = true;
+            $cityValid = validate_city($_POST['city']);
+            if (!$cityValid)
+            {
+                $formIsValid = false;
+                $errors["city"] = "City is invalid.";
+            }
+        }
+        else
+            $errors["city"] = "City is missing.";
+
+        if (!empty($_POST['state']))
+        {
+            $statePresent = true;
+            $stateValid = validate_state($_POST['state']);
+            if (!$stateValid)
+            {
+                $formIsValid = false;
+                $errors["state"] = "Last name is invalid.";
+            }
+        }
+        else
+            $errors["state"] = "State is missing.";
+
+        if (!empty($_POST['zip']))
+        {
+            $zipPresent = true;
+            $zipValid = validate_zip($_POST['zip']);
+            if (!$zipValid)
+            {
+                $formIsValid = false;
+                $errors["zip"] = "Zip code is invalid.";
+            }
+        }
+        else
+            $errors["zip"] = "Zip code is missing.";
+
+        if (!empty($_POST['country']))
+        {
+            $countryPresent = true;
+            $countryValid = validate_country($_POST['country']);
+            if (!$countryValid)
+            {
+                $formIsValid = false;
+                $errors["country"] = "Country is invalid.";
+            }
+        }
+        else
+            $errors["country"] = "Country is missing.";
+
+        if (!empty($_POST['dob']))
+        {
+            $dobPresent = true;
+            $dobValid = validate_dob($_POST['dob']);
+            if (!$dobValid)
+            {
+                $errors["dob"] = "Must be older than 18.";
+            }
+        }
+        else
+            $errors["dob"] = "Date of birth is missing.";
+
+        if (!empty($_POST['phone']))
+        {
+            $phonePresent = true;
+            $phoneValid = validate_phone($_POST['phone']);
+            if (!$phoneValid)
+            {
+                $formIsValid = false;
+                $errors["phone"] = "Phone number is invalid.";
+            }
+        }
+        else
+            $errors["phone"] = "Phone is missing.";
+
+        if (!empty($_POST['phoneType']))
+        {
+            $phoneTypePresent = true;
+            $phoneTypeValid = validate_phone_type($_POST['phoneType']);
+            if (!$phoneTypeValid)
+            {
+                $formIsValid = false;
+                $errors["phoneType"] = "Phone type is invalid.";
+            }
+        }
+        else
+            $errors["phoneType"] = "Phone type is missing.";
+
+        if (!empty($_POST['email']))
+        {
+            $emailPresent = true;
+            if (!empty($_POST['domainCheck']))
+            {
+                $domainCheck = $_POST['domainCheck'];
+            }
+            $emailValid = validate_email($_POST['email'], $domainCheck);
+            if (!$emailValid)
+            {
+                $formIsValid = false;
+                $errors["email"] = "E-mail is invalid.";
+            }
+        }
+        else
+            $errors["email"] = "Email is missing.";
+
+        if (!empty($_POST['nickname']))
+        {
+            $nicknamePresent = true;
+            $nicknameValid = validate_nickname($_POST['nickname']);
+            if (!$nicknameValid)
+            {
+                $formIsValid = false;
+                $errors["nickname"] = "Nickname is invalid.";
+            }
+        }
+        else
+        {
+            if (!empty($formName) && $formName == "serviceConsumer")
+            {
+                $errors["nickname"] = "Nickname is missing.";
+            }
+            else
+                $nicknameValid = true;
+        }
+
+        if (!empty($_POST['username']))
+        {
+            $usernamePresent = true;
+            $usernameValid = validate_username($_POST['username']);
+            if (!$usernameValid)
+            {
+                $formIsValid = false;
+                $errors["username"] = "Username is invalid.";
+            }
+        }
+        else
+            $errors["username"] = "Username is missing.";
+
+        if (!empty($_POST['pwd']))
+        {
+            $passwordPresent = true;
+            $passwordValid = validate_password($_POST['pwd']);
+            if (!$passwordValid)
+            {
+                $formIsValid = false;
+                $errors["password"] = "Password is invalid.";
+            }
+        }
+        else
+            $errors["password"] = "Password is missing.";
+
+        if (!empty($_POST['picture']))
+        {
+            $picturePresent = true;
+            $pictureValid = validate_picture($_POST['picture']);
+            if (!$pictureValid)
+            {
+                $formIsValid = false;
+                $errors["picture"] = "Picture is invalid.";
+            }
+        }
+        else
+            $pictureValid = true;
+
+        if (empty($_POST['terms']))
+        {
+            $formIsValid = false;
+            $errors["terms"] = "You must agree to the terms of service.";
+        }
+
+        if (!empty($_POST['travelRadius']))
+        {
+            $travelRadiusPresent = true;
+            $travelRadiusValid = validate_travel_radius($_POST['travelRadius']);
+            if (!$travelRadiusValid)
+            {
+                $formIsValid = false;
+                $errors["travelRadius"] = "Travel radius is invalid.";
+            }
+        }
+        else
+        {
+            if (!empty($formName) && $formName == "serviceProvider")
+            {
+                $errors["travelRadius"] = "Travel radius is missing.";
+            }
+            else
+                $travelRadiusValid = true;
+        }
+
+        if (!empty($_POST['prefContactMethod']))
+        {
+            $prefContactMethodPresent = true;
+            $prefContactMethodValid = validate_pref_contact_method($_POST['prefContactMethod']);
+            if (!$prefContactMethodValid)
+            {
+                $formIsValid = false;
+                $errors["prefContactMethod"] = "Preferred contact method is invalid.";
+            }
+        }
+        else
+            $errors["prefContactMethod"] = "Preferred contact method missing.";
+
+        if (!empty($_POST['jobtitle']))
+        {
+            $jobTitlePresent = true;
+            $jobTitleValid = validate_job_title($_POST['jobtitle']);
+            if (!$jobTitleValid)
+            {
+                $formIsValid = false;
+                $errors["jobTitle"] = "Job title is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postService")
+                $errors["jobTitle"] = "Job title is missing.";
+        }
+
+        if (!empty($_POST['description']))
+        {
+            $descriptionPresent = true;
+            $descriptionValid = validate_description($_POST['description']);
+            if (!$descriptionValid)
+            {
+                $formIsValid = false;
+                $errors["description"] = "Description is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postService")
+                $errors["description"] = "Description is missing.";
+        }
+
+        if (!empty($_POST['category']))
+        {
+            $categoryPresent = true;
+            $categoryValid = validate_category($_POST['category']);
+            if (!$categoryValid)
+            {
+                $formIsValid = false;
+                $errors["category"] = "Category is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postService")
+                $errors["category"] = "Category is missing.";
+        }
+
+        if (!empty($_POST['price']))
+        {
+            $pricePresent = true;
+            $priceValid = validate_price($_POST['price']);
+            if (!$priceValid)
+            {
+                $formIsValid = false;
+                $errors["price"] = "Price is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postService")
+                $errors["price"] = "Price is missing.";
+        }
+
+        if (!empty($_POST['tags']))
+        {
+            $tagsPresent = true;
+            $tagsValid = validate_tags($_POST['tags']);
+            if (!$tagsValid)
+            {
+                $formIsValid = false;
+                $errors["tags"] = "Tags are invalid.";
+            }
+        }
+        else
+            $tagsValid = true;
+
+        if ($formName == "postService")
+        {
+            if ($jobTitleValid && $descriptionValid && $categoryValid && $priceValid && $tagsValid)
+            {
+                $formIsValid = true;
+            }
+            else
+            {
+                $ps_fields = array("jobTitle", "description", "category", "price", "tags");
+                foreach ($errors as $k => $v)
+                {
+                    if (!in_array($k, $ps_fields))
+                        unset($errors[$k]);
+                }
+            }
+        }
+        else 
+        {
+            if ($firstNameValid && $lastNameValid && $addressOneValid && $addressTwoValid && $nicknameValid && $travelRadiusValid && $pictureValid && $cityValid && $stateValid && $zipValid && $countryValid && $dobValid && $phoneValid && $emailValid && $phoneTypeValid && $usernameValid && $passwordValid && $termsValid && $prefContactMethodValid)
+            {
+                $formIsValid = true;
+            }
         }
     }
 
