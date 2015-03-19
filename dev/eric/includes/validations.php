@@ -19,7 +19,7 @@ function validateForm() {
     if (!empty($_POST['formname']))
         $formName = $_POST['formname'];
 
-    if (!empty($formName == "changes_password"))
+    if ($formName == "changes_password")
     {
         $currentPwValid = $newPwValid = $newPwConfValid = false;
 
