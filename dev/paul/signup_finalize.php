@@ -41,9 +41,12 @@ include('includes/template.php');
 <body>
 
 <h1>Register To Use Our Services </h1>
-<form action="signup_finalize.php" method="POST" onsubmit="return formIsReady(this);">
+<form action="" method="POST" onsubmit="return formIsReady(this);">
 	<p>Full Name (First Last): <input type="text" name="fullName" id="fullName" size="25" maxlength="40" 
-			value="<?php if (isset($_POST['fullName'])) echo $_POST['fullName']; ?>" /><span class="err"></span></label><br/>
+			value="<?php include_once('HumanNameParser/init.php');
+							$n = $_POST['fullName'];
+							parseName($n);
+							?>" /><span class="err"></span></label><br/>
 	<p>Email Address: <input type="text" name="email" id="email" size="20" maxlength="60" 
 			value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>"  /><span class="err"></span></label><br/>
 	<p>Password: <input type="password" name="password" id="password" size="10" maxlength="20" 
@@ -52,10 +55,20 @@ include('includes/template.php');
 				<span class="err"></span></label><br/>
 	<p>Birth Date: <input type="date" name="birthDate" id="birthDate" size="10" maxlength="20" 
 			value="<?php if (isset($_POST['birthDate'])) echo $_POST['birthDate']; ?>"  /><span class="err"></span></label><br/>
-	<p><input type="submit" class="exsbm" name="submit" id="btnSubmit" value="Sign Up" disabled="true"/></p>
+	<p>User Name (Handle): <input type="text" name="userName" id="userName" size="20" maxlength="25"/><span class="err"></span></label><br/>
+	Your User Name will be visible on your profile and postings (i.e., <i>GrassCutter</i>).
+	<p>ZIP Code: <input type="text" name="zipCode" id="zipCode" size="5" maxlength="10"/><span class="err"></span></label><br/>
+	We use ZIP codes to show you services nearby.
+	<p>By signing up, you agree to our <a href="TermsConditions.html" target="_blank" " title="Terms and Conditions</u>" <u> Terms and Conditions. </u> </a>
 </form>
 
+
+	
+	
 <script type="text/javascript">
+
+		$('#userName').focus();
+		
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
   // from: http://coursesweb.net/ajax/
@@ -123,6 +136,8 @@ document.getElementById('fullName').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('email').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('password').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('birthDate').onblur = function() { chkF.checkAjax(this);}
+document.getElementById('zipCode').onblur = function() { chkF.checkAjax(this);}
+document.getElementById('userName').onblur = function() { chkF.checkAjax(this);}
 
 </script>
 <br/>
@@ -141,9 +156,8 @@ document.getElementById('birthDate').onblur = function() { chkF.checkAjax(this);
 
 */
 //	Import functions
-// include_once('includes/validatePW.php'); // Original script for testing
 include_once('includes/validations.php'); // Master field/form validation scripts
-include_once('HumanNameParser/init.php');
+
 
 //// Declare/Initialize VARS
 
@@ -168,6 +182,9 @@ $e = $_POST['email'];
 
 // Perform Validations
 // Parse Name
-parseName($n);
+// 
 ?>
+<script type="text/javascript">
+		$('#userName').focus();
+	</script>
 </html>
