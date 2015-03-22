@@ -45,7 +45,7 @@ include('includes/template.php');
 	<p>Full Name (First Last): <input type="text" name="fullName" id="fullName" size="25" maxlength="40" 
 			value="<?php include_once('HumanNameParser/init.php');
 							$n = $_POST['fullName'];
-							parseName($n);
+							parseName($n, 'FN'); // Get First and Last Name
 							?>" /><span class="err"></span></label><br/>
 	<p>Email Address: <input type="text" name="email" id="email" size="20" maxlength="60" 
 			value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>"  /><span class="err"></span></label><br/>
@@ -53,26 +53,23 @@ include('includes/template.php');
 			value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>"  /> 
 				<a title="Password length must be 8 or more characters, and include 3 of the following elements: UPPER CASE LETTER, lower case letter, number, special characters (!@#$%, etc.)"><img src="./images/question.png" alt="" style="width:25px;height:25px"></a>
 				<span class="err"></span></label><br/>
-	<p>Birth Date: <input type="date" name="birthDate" id="birthDate" size="10" maxlength="20" 
-			value="<?php if (isset($_POST['birthDate'])) echo $_POST['birthDate']; ?>"  /><span class="err"></span></label><br/>
+	<p>Birth Date: <input type="date" name="dob" id="dob" size="10" maxlength="20" 
+			value="<?php if (isset($_POST['dob'])) echo $_POST['dob']; ?>"  /><span class="err"></span></label><br/>
 	<p>User Name (Handle): <input type="text" name="userName" id="userName" size="20" maxlength="25"/><span class="err"></span></label><br/>
 	Your User Name will be visible on your profile and postings (i.e., <i>GrassCutter</i>).
 	<p>ZIP Code: <input type="text" name="zipCode" id="zipCode" size="5" maxlength="10"/><span class="err"></span></label><br/>
 	We use ZIP codes to show you services nearby.
 	<p>By signing up, you agree to our <a href="TermsConditions.html" target="_blank" " title="Terms and Conditions</u>" <u> Terms and Conditions. </u> </a>
+	<p><input type="submit" class="exsbm" name="submit" id="btnSubmit" value="Sign Up" disabled="true"/></p>
+
 </form>
 
-
-	
-	
 <script type="text/javascript">
 
-		$('#userName').focus();
-		
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
   // from: http://coursesweb.net/ajax/
-  var phpcheck = 'check.php'; // Here add the php file that validate the form element
+  var phpcheck = 'check_final.php'; // Here add the php file that validate the form element
   var err = {}; // stores form elements name, with value of 1 for invalid, and value 0 for valid
 
   // change the css class of elm
@@ -135,10 +132,9 @@ var chkF = new checkFormElm(); // object instance of checkFormElm()
 document.getElementById('fullName').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('email').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('password').onblur = function() { chkF.checkAjax(this);}
-document.getElementById('birthDate').onblur = function() { chkF.checkAjax(this);}
+document.getElementById('dob').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('zipCode').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('userName').onblur = function() { chkF.checkAjax(this);}
-
 </script>
 <br/>
 </body>
@@ -158,33 +154,56 @@ document.getElementById('userName').onblur = function() { chkF.checkAjax(this);}
 //	Import functions
 include_once('includes/validations.php'); // Master field/form validation scripts
 
-
-//// Declare/Initialize VARS
-
-$d = $_POST['birthDate'];
 $n = $_POST['fullName'];
-$e = $_POST['email'];
+
+// Declare/Initialize VARS
+$fn = parseName($n, 'F');
+$ln = parseName($n, 'L');
+$em = $_POST['email'];
+$pw = $_POST['password'];
+$dob = $_POST['dob'];
+$un = $_POST['userName'];
+$zip = $_POST['zipCode'];
 
 
 //	Local Functions
 	// Parse Name
-	function parseName($name) {
-	 
+	function parseName($name, $part) {  // Parts 'F' = First, 'L' = Last, 'FN' = Full Name
+	$value = ''; 
 	// 2. instantiate the parser, passing the (utf8-encoded) name you want to parse
 	$parser = new HumanNameParser_Parser($name);
 	 
 	// 3. Use the relevant 'get' method to retrieve name parts:
 	//   'leadingInit', 'first', 'nicknames', 'middle', 'last', and 'suffix'
-	echo $parser->getFirst() . ' ' . $parser->getLast();
-
-}
-
+	//echo $parser->getFirst() . ' ' . $parser->getLast();
+	$fn = $parser->getFirst();
+	$ln = $parser->getLast();
+	
+	if($part == 'F') {
+		$value = $fn;
+		return $value;
+	}
+	else if($part == 'L') {
+		$value = $ln;
+		return $value;
+	}
+	else {
+		$value = $fn . ' ' . $ln;
+		echo $value;
+	}
+	}
 
 // Perform Validations
 // Parse Name
-// 
+//
+echo $fn . '<br>';
+echo $ln . '<br>';
+echo $em. '<br>';
+echo $pw . '<br>';
+echo $dob . '<br>';
+echo $un . '<br>';
+echo $zip . '<br>';
+
 ?>
-<script type="text/javascript">
-		$('#userName').focus();
-	</script>
+
 </html>

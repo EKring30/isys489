@@ -50,8 +50,8 @@ include('includes/template.php');
 			value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>"  /> 
 				<a title="Password length must be 8 or more characters, and include 3 of the following elements: UPPER CASE LETTER, lower case letter, number, special characters (!@#$%, etc.)"><img src="./images/question.png" alt="" style="width:25px;height:25px"></a>
 				<span class="err"></span></label><br/>
-	<p>Birth Date: <input type="date" name="birthDate" id="birthDate" size="10" maxlength="20" 
-			value="<?php if (isset($_POST['birthDate'])) echo $_POST['birthDate']; ?>"  /><span class="err"></span></label><br/>
+	<p>Birth Date: <input type="date" name="dob" id="dob" size="10" maxlength="20" 
+			value="<?php if (isset($_POST['dob'])) echo $_POST['dob']; ?>"  /><span class="err"></span></label><br/>
 	<p><input type="submit" class="exsbm" name="submit" id="btnSubmit" value="Sign Up" disabled="true"/></p>
 </form>
 
@@ -59,7 +59,7 @@ include('includes/template.php');
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
   // from: http://coursesweb.net/ajax/
-  var phpcheck = 'check.php'; // Here add the php file that validate the form element
+  var phpcheck = 'check_first.php'; // Here add the php file that validate the form element
   var err = {}; // stores form elements name, with value of 1 for invalid, and value 0 for valid
 
   // change the css class of elm
@@ -122,7 +122,7 @@ var chkF = new checkFormElm(); // object instance of checkFormElm()
 document.getElementById('fullName').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('email').onblur = function() { chkF.checkAjax(this);}
 document.getElementById('password').onblur = function() { chkF.checkAjax(this);}
-document.getElementById('birthDate').onblur = function() { chkF.checkAjax(this);}
+document.getElementById('dob').onblur = function() { chkF.checkAjax(this);}
 
 </script>
 <br/>
