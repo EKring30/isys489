@@ -2,12 +2,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
-	<title>Update Password</title>
+	<title>Order Confirmation - Thank You</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="productStyle.css" />
 	</style>
 </head>
 <body>
-<?php # Script 1.0 - handle_form_new_password.php
+<?php # Script 1.0 - handle_form.php
 
 	include('includes/validations.php');
 	if (!empty($_POST))
@@ -25,10 +25,11 @@
 		}
 		else
 			echo "<h1>Thank You!</h1>
-	<p>Your password has been successfully changed.<br/>\r\n";
+	<p>Your request has been posted to the requested job newsfeed a service provider will be in 
+	contact with you once they are willing to provide your service.<br/>\r\n";
 	}
 ?>
-<p><b>Click here to</b> <a href="changes_password.php">Return to Change your Password</a>.  </p>
+<p><b>Click here to</b> <a href="posts_service.php">Return to Job Request</a>.  </p>
 
 </body>
 </html>

@@ -1,9 +1,8 @@
-<?php
-	session_start();
-    session_unset();
-    session_destroy();
-    session_write_close();
-    setcookie(session_name(),'',0,'/');
-    session_regenerate_id(true);
-    header('Location: index.php');
-?>
+ <?php
+	include('includes/global-vars.php');
+	$title = "Index";
+	$page = "index";
+
+	$content .= "<h1>You have successfully been logged out.</h1>\r\n";
+	include('includes/template.php');
+ ?>
