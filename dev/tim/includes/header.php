@@ -49,7 +49,7 @@
               </div>
             </li>
             <?php } else { ?>
-              <li><a name="user">Hello, <?php echo $_SESSION["user"]["name"] ?></a></li>
+              <li><a name="user">Hello, <?php echo $_SESSION["username"] ?></a></li>
               <li><a href="logout.php">Logout</a></li>
             <?php } ?>
           </ul>

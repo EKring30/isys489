@@ -8,7 +8,10 @@
 	{
 		if (!empty($_POST['username']) && !empty($_POST['pwd']))
 		{
-			$_SESSION['user'] = $_POST['username'];
+			// Add code here to look up username and password in the database.
+			// If username & password combo match, add session variables and proceed.
+			// Else, echo error message.
+			$_SESSION['username'] = $_POST['username'];
 			echo "success";
 		}
 		else
