@@ -1,5 +1,13 @@
 <?php
-  $jquery .= '$("#btnLogin").click(function() {})';
+  $jquery .= '$("#btnLogin").click(function(e) {
+    e.preventDefault();
+    $.post("login.php", $("#formLogin").serialize(), function(data) {
+      if (data)
+      {
+        alert(data);
+      }
+    });
+  })';
 ?>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
