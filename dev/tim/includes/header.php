@@ -45,6 +45,7 @@
                   <input name="username" id="username" type="text" placeholder="Username"> 
                   <input name="pwd" id="pwd" type="password" placeholder="Password"><br>
                   <button type="button" id="btnLogin" class="btn">Login</button>
+                  <br /><a href="#forgot">Forgot your password?</a>
                 </form>
               </div>
             </li>
