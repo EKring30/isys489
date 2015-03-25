@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	include('includes/database.php');
+	global $my_dbhandle;
+	
 	if (empty($_POST))
 	{
 		echo "Error - username or password invalid.";
