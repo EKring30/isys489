@@ -21,7 +21,7 @@
 			// Else, echo error message.
 			// prepare and bind
 			$stmt = $conn->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
-			$stmt->bind_param("ss", $_POST['username'], $_POST['pwd']);
+			$stmt->bind_param("ss", $_POST['username'], md5($_POST['pwd']));
 			$res = $stmt->get_result();
 			if (!$res) 
 			{
