@@ -18,6 +18,6 @@ $reout = ''; // data to return
 // validate the GET value
 if(isset($_REQUEST['fullName']) && !preg_match('/(?:[A-Za-z]+(?:\s+|$)){2,4}/', $_REQUEST['fullName'])) $reout = $err['fullName'];
 else if(isset($_REQUEST['password']) && validate_password($_REQUEST['password'])) $reout = $err['password'];
-else if(isset($_REQUEST['dob']) && validate_dob($_REQUEST['dob'])) $reout = $err['dob'];
+else if(isset($_REQUEST['dob']) && !validate_dob($_REQUEST['dob'])) $reout = $err['dob'];
 else if(isset($_REQUEST['email']) && !validate_email($_REQUEST['email'])) $reout = $err['email'];
 echo $reout;
