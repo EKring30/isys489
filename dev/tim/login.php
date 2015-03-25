@@ -20,7 +20,7 @@
 			// If username & password combo match, add session variables and proceed.
 			// Else, echo error message.
 			// prepare and bind
-			$stmt = $conn->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
+			$stmt = $my_dbhandle->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
 			$stmt->bind_param("ss", $_POST['username'], md5($_POST['pwd']));
 			if (!$stmt->execute()) {
 			    echo "There was an error logging in. Please contact the system administrator.";
