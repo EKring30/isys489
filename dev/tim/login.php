@@ -2,7 +2,12 @@
 	session_start();
 	include('includes/database.php');
 	global $my_dbhandle;
-	
+
+	// Check connection
+	if ($my_dbhandle->connect_error) {
+	    die("Connection failed: " . $my_dbhandle->connect_error);
+	}
+
 	if (empty($_POST))
 	{
 		echo "Error - username or password invalid.";
@@ -14,8 +19,19 @@
 			// Add code here to look up username and password in the database.
 			// If username & password combo match, add session variables and proceed.
 			// Else, echo error message.
-			$_SESSION['username'] = $_POST['username'];
-			echo "success";
+			// prepare and bind
+			$stmt = $conn->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
+			$stmt->bind_param("ss", $_POST['username'], $_POST['pwd']);
+			$res = $stmt->get_result();
+			if (!$res) 
+			{
+			    echo "Error - invalid username or password.";
+			}
+			else
+			{
+				$_SESSION['username'] = $_POST['username'];
+				echo "success";
+			}
 		}
 		else
 			echo "Error - username or password invalid.";
