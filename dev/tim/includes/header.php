@@ -5,8 +5,13 @@
       if (data)
       {
         if (data == "success")
-        {}
-        alert(data);
+        {
+          location.href = "index.php";
+        }
+        else
+        {
+          alert(data);
+        }
       }
     });
   })';
