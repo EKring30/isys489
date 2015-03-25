@@ -4,6 +4,8 @@
     $.post("login.php", $("#formLogin").serialize(), function(data) {
       if (data)
       {
+        if (data == "success")
+        {}
         alert(data);
       }
     });

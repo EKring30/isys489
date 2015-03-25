@@ -2,14 +2,14 @@
 	session_start();
 	if (empty($_POST))
 	{
-		header('Location: index.php');
+		echo "Error - username or password invalid.";
 	}
 	else
 	{
 		if (!empty($_POST['username']) && !empty($_POST['pwd']))
 		{
 			$_SESSION['user'] = $_POST['username'];
-			header('Location: index.php');
+			echo "success";
 		}
 		else
 			echo "Error - username or password invalid.";
