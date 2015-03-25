@@ -1,3 +1,7 @@
+<?php
+  $jquery .= '$("#btnLogin").click(function() {})';
+?>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -16,10 +20,10 @@
             <li<?php if ($page == "contact") {?> class="active"<?php } ?>><a href="#contact">Contact</a></li>
             <li<?php if ($page == "test") {?> class="active"<?php } ?>><a href="test_form.php">Test Form</a></li>
           </ul>
-          <ul class="nav pull-right">
+          <ul class="navbar-nav nav pull-right">
             <?php
               if (empty($_SESSION['user'])) { ?>
-            <li class="dropdown" id="menuLogin">
+            <li class="dropdown<?php if ($page == "login") {?> active<?php }?>" id="menuLogin">
               <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Login <b class="caret"></b></a>
               <div class="dropdown-menu" style="padding:17px;">
                 <form class="form" id="formLogin"> 
