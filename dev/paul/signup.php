@@ -1,6 +1,13 @@
 <html>
 
 <style type="text/css">
+h1 {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 50px;
+}
+
 /* style for validated field */
 .vinp {
  background: #efeffe;
@@ -39,6 +46,13 @@ include('includes/template.php');
 	
 </head>
 <body>
+<style type="text/css">
+form {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+</style>
+
 
 <h1>Register To Use Our Services </h1>
 <form action="signup_finalize.php" method="POST" onsubmit="return formIsReady(this);">
@@ -54,7 +68,7 @@ include('includes/template.php');
 			value="<?php if (isset($_POST['dob'])) echo $_POST['dob']; ?>"  /><span class="err"></span></label><br/>
 	<p><input type="submit" class="exsbm" name="submit" id="btnSubmit" value="Sign Up" disabled="true"/></p>
 </form>
-
+</p>
 <script type="text/javascript">
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
@@ -147,9 +161,9 @@ include_once('HumanNameParser/init.php');
 
 //// Declare/Initialize VARS
 
-$d = $_POST['birthDate'];
-$n = $_POST['fullName'];
-$e = $_POST['email'];
+if(isset($_POST['birthDate'])) $d = $_POST['birthDate'];
+if(isset($_POST['fullName'])) $n = $_POST['fullName'];
+if(isset($_POST['email'])) $e = $_POST['email'];
 
 
 //	Local Functions
@@ -168,6 +182,6 @@ $e = $_POST['email'];
 
 // Perform Validations
 // Parse Name
-parseName($n);
+if(isset($_POST['fullName'])) parseName($n);
 ?>
 </html>

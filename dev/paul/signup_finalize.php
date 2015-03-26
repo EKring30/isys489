@@ -1,6 +1,10 @@
 <html>
 
 <style type="text/css">
+p {
+    margin-left: 2cm;
+}
+
 /* style for validated field */
 .vinp {
  background: #efeffe;
@@ -39,12 +43,18 @@ include('includes/template.php');
 	
 </head>
 <body>
+<style type="text/css">
+form {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+</style>
 
 <h1>Register To Use Our Services </h1>
 <form action="" method="POST" onsubmit="return formIsReady(this);">
 	<p>Full Name (First Last): <input type="text" name="fullName" id="fullName" size="25" maxlength="40" 
 			value="<?php include_once('HumanNameParser/init.php');
-							$n = $_POST['fullName'];
+							if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName'];
 							parseName($n, 'FN'); // Get First and Last Name
 							?>" /><span class="err"></span></label><br/>
 	<p>Email Address: <input type="text" name="email" id="email" size="20" maxlength="60" 
@@ -57,7 +67,7 @@ include('includes/template.php');
 			value="<?php if (isset($_POST['dob'])) echo $_POST['dob']; ?>"  /><span class="err"></span></label><br/>
 	<p>User Name (Handle): <input type="text" name="userName" id="userName" size="20" maxlength="25"/><span class="err"></span></label><br/>
 	Your User Name will be visible on your profile and postings (i.e., <i>GrassCutter</i>).
-	<p>ZIP Code: <input type="text" name="zipCode" id="zipCode" size="5" maxlength="10"/><span class="err"></span></label><br/>
+	<p>ZIP Code: <input type="text" name="zipCode" id="zipCode" size="10" maxlength="10"/><span class="err"></span></label><br/>
 	We use ZIP codes to show you services nearby.
 	<p>By signing up, you agree to our <a href="TermsConditions.html" target="_blank" " title="Terms and Conditions</u>" <u> Terms and Conditions. </u> </a>
 	<p><input type="submit" class="exsbm" name="submit" id="btnSubmit" value="Sign Up" disabled="true"/></p>
@@ -154,16 +164,20 @@ document.getElementById('userName').onblur = function() { chkF.checkAjax(this);}
 //	Import functions
 include_once('includes/validations.php'); // Master field/form validation scripts
 
-$n = $_POST['fullName'];
+if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName'];
 
 // Declare/Initialize VARS
-$fn = parseName($n, 'F');
-$ln = parseName($n, 'L');
-$em = $_POST['email'];
-$pw = $_POST['password'];
-$dob = $_POST['dob'];
-$un = $_POST['userName'];
-$zip = $_POST['zipCode'];
+$servername = "isys489c_GR_ServiceDB";
+$username = "gerndtp";
+$password = "cU^8vQ=12ro0";
+$dbname = "isys489c_GR_ServiceDB";
+if(isset($_REQUEST['fullName'])) $fn = parseName($n, 'F');
+if(isset($_REQUEST['zipCode'])) $ln = parseName($n, 'L');
+if(isset($_REQUEST['email'])) $em = $_REQUEST['email'];
+if(isset($_REQUEST['password'])) $pw = $_REQUEST['password'];
+if(isset($_REQUEST['dob'])) $dob = $_REQUEST['dob'];
+if(isset($_REQUEST['userName'])) $un = $_REQUEST['userName'];
+if(isset($_REQUEST['zipCode'])) $zip = $_REQUEST['zipCode'];
 
 
 //	Local Functions
@@ -195,7 +209,7 @@ $zip = $_POST['zipCode'];
 
 // Perform Validations
 // Parse Name
-//
+/*
 echo $fn . '<br>';
 echo $ln . '<br>';
 echo $em. '<br>';
@@ -203,6 +217,42 @@ echo $pw . '<br>';
 echo $dob . '<br>';
 echo $un . '<br>';
 echo $zip . '<br>';
+
+
+
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO MyGuests (firstname, lastname, email) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $firstname, $lastname, $email);
+
+// set parameters and execute
+$firstname = "John";
+$lastname = "Doe";
+$email = "john@example.com";
+$stmt->execute();
+
+$firstname = "Mary";
+$lastname = "Moe";
+$email = "mary@example.com";
+$stmt->execute();
+
+$firstname = "Julie";
+$lastname = "Dooley";
+$email = "julie@example.com";
+$stmt->execute();
+
+echo "New records created successfully";
+
+$stmt->close();
+$conn->close();*/
 
 ?>
 
