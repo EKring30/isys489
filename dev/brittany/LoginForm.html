@@ -12,20 +12,25 @@
 <legend>Login</legend>
 <input type='hidden' name='submitted' id='submitted' value='1'/>
  
-<label for='username' >EmailAddress:</label>
+<label for='username' >Email Address:</label>
 <input type='text' name='username' id='username'  maxlength="50" />
 <br />
 <label for='password' >Password:</label>
 <input type='password' name='password' id='password' maxlength="50" />
-<button id ="ForgotYourPassword">Forgot Your Password? </a>
-<div id =" overlay"></div>
-<div id ="popup">
-    Redirect to Forgot Password Page
-</div>
+<button 
+onclick = "RedirectFunction()">Forgot Your Password?
 </button>
-<br />
+<script>
+function RedirectFunction()
+{
+<%
+Response.Redirect "https://trello.com/c/odjB20Dm/46-5-user-forgets-their-password-and-requests-a-change-estimate-5"
+%>
+}
+<br>
+</script>
 <label for ='CHECKBOX' ></label>
-<INPUT TYPE=CHECKBOX NAME="KeepLogin">Keep Me Logged in.<P>
+<INPUT TYPE=CHECKBOX NAME="KeepLogin">Keep Me Logged in.<br>
 <input type='submit' name='Submit' value='Submit' />
 
 </fieldset>

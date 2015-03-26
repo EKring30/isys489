@@ -27,7 +27,7 @@ else
 	   
 	 //look up username and password in db
 	 $stmt = $conn->prepare("SELECT dUsername, dPassword FROM users WHERE username = dUsername AND password = dPassword");
-	 $stmt -> bind_param("ss", $_POST['username'], "ss",$_POST['password']);
+	 $stmt -> bind_param("ss", $_POST['username'], md5($_POST['password']));
 	 $res = $stmt->get_result();
 	 if (!$res)
 	 {
