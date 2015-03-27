@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	$author = "Tim Hansen";
 	$description = "Sample PHP app.";
 	$copyright = "GR Isys489";

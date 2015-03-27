@@ -1,6 +1,4 @@
 <?php
-	// Start the session
-	session_start();
 	include('includes/global-vars.php');
 	include('includes/validations.php');
 
