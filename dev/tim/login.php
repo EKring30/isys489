@@ -2,6 +2,7 @@
 	session_start();
 	include('includes/database.php');
 	global $my_dbhandle;
+	$rtrn = array();
 
 	// Check connection
 	if ($my_dbhandle->connect_error) {
@@ -10,33 +11,52 @@
 
 	if (empty($_POST))
 	{
-		echo "Error - username or password invalid.";
+		$rtrn["msg"] = "Error - username or password invalid.";
+		echo json_encode($rtrn);
 	}
 	else
 	{
 		if (!empty($_POST['username']) && !empty($_POST['pwd']))
 		{
-			// Add code here to look up username and password in the database.
-			// If username & password combo match, add session variables and proceed.
-			// Else, echo error message.
-			// prepare and bind
+			$referer = $_SERVER['HTTP_REFERER'];
+			$fingerprint = md5('KrC6fV8Y5xNG5:R'.$_SERVER['HTTP_USER_AGENT']);
+
 			$stmt = $my_dbhandle->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
 			$stmt->bind_param("ss", $_POST['username'], md5($_POST['pwd']));
 			if (!$stmt->execute()) {
 			    echo "There was an error logging in. Please contact the system administrator.";
 			}
-			$res = $stmt->get_result();
-			if (!$res) 
+			$stmt->bind_result($id);
+
+			$stmt->fetch();
+			if (!empty($id))
 			{
-			    echo "Error - invalid username or password.";
+				if (!empty($referer) && strpos($referer, "logout") === FALSE)
+				{
+					$rtrn["url"] = $referer;
+				}
+				else
+				{
+					$rtrn["url"] = "index.php";
+				}
+
+				unset($_GET);
+				$_SESSION['last_active'] = time();
+				$_SESSION['fingerprint'] = $fingerprint;
+				$_SESSION['username'] = $_POST['username'];
+				$rtrn["msg"] = "success";
+				echo json_encode($rtrn);
 			}
 			else
 			{
-				$_SESSION['username'] = $_POST['username'];
-				echo "success";
-			}
+		    	$rtrn["msg"] = "Error - invalid username or password.";
+		    	echo json_encode($rtrn);
+		    }
 		}
 		else
-			echo "Error - username or password invalid.";
+		{
+			$rtrn["msg"] = "Error - username or password invalid.";
+			echo json_encode($rtrn);
+		}
 	}
 ?>

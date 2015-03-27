@@ -4,7 +4,6 @@
 	include('includes/global-vars.php');
 	$title = "Index";
 	$page = "index";
-	$content = "";
 
 	if (isset($_SESSION["notice"]))
 	{

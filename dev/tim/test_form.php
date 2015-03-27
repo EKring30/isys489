@@ -6,7 +6,6 @@
 
 	$title = "Form to Test Validations";
 	$page = "test";
-	$content = "";
 
 	if (isset($_SESSION["notice"]))
 	{

@@ -1,5 +1,6 @@
 <?php
 include('database.php');
+include('global-vars.php');
 
 function validateForm() {
     $firstNamePresent = $firstNameValid = $lastNamePresent = $lastNameValid = false;
@@ -9,8 +10,8 @@ function validateForm() {
     $phoneTypePresent = $phoneTypeValid = $usernamePresent = $usernameValid = $passwordPresent = $passwordValid = false;
     $travelRadiusPresent = $travelRadiusValid = $picturePresent = $pictureValid = $termsPresent = $termsValid = false;
     $prefContactMethodPresent = $prefContactMethodValid = $jobTitlePresent = $jobTitleValid = false;
-    $descriptionPresent = $descriptionValid = $categoryPresent = $categoryValid = false;
-    $pricePresent = $priceValid = $tagsPresent = $tagsValid = false;
+    $descriptionPresent = $descriptionValid = $categoryPresent = $categoryValid = $biddingValid = false;
+    $pricePresent = $priceValid = $tagsPresent = $tagsValid = $serviceToSwapValid = $timeAvailableValid = false;
     $formName = "";
 
     $formIsValid = false;
@@ -297,24 +298,18 @@ function validateForm() {
             $errors["terms"] = "You must agree to the terms of service.";
         }
 
-        if (!empty($_POST['travelRadius']))
+        if (!empty($_POST['bidding']))
         {
-            $travelRadiusPresent = true;
-            $travelRadiusValid = validate_travel_radius($_POST['travelRadius']);
-            if (!$travelRadiusValid)
+            $bidding = $_POST['bidding'];
+            if ($bidding == "0" || $bidding == "1")
             {
-                $formIsValid = false;
-                $errors["travelRadius"] = "Travel radius is invalid.";
-            }
-        }
-        else
-        {
-            if (!empty($formName) && $formName == "serviceProvider")
-            {
-                $errors["travelRadius"] = "Travel radius is missing.";
+                $biddingValid = true;
             }
             else
-                $travelRadiusValid = true;
+            {
+                $formIsValid = false;
+                $errors["bidding"] = "Allow bidding value is invalid.";
+            }
         }
 
         if (!empty($_POST['prefContactMethod']))
@@ -342,7 +337,7 @@ function validateForm() {
         }
         else
         {
-            if ($formName == "postService")
+            if ($formName == "postService" || $formName == "postJob")
                 $errors["jobTitle"] = "Job title is missing.";
         }
 
@@ -358,7 +353,7 @@ function validateForm() {
         }
         else
         {
-            if ($formName == "postService")
+            if ($formName == "postService" || $formName == "postJob")
                 $errors["description"] = "Description is missing.";
         }
 
@@ -374,7 +369,7 @@ function validateForm() {
         }
         else
         {
-            if ($formName == "postService")
+            if ($formName == "postService" || $formName == "postJob")
                 $errors["category"] = "Category is missing.";
         }
 
@@ -390,7 +385,7 @@ function validateForm() {
         }
         else
         {
-            if ($formName == "postService")
+            if ($formName == "postService" || $formName == "postJob")
                 $errors["price"] = "Price is missing.";
         }
 
@@ -407,6 +402,75 @@ function validateForm() {
         else
             $tagsValid = true;
 
+        if (!empty($_POST['travelRadius']))
+        {
+            if (!empty($_POST['travelRadiusNA']))
+            {
+                if ($_POST['travelRadiusNA'] == '1')
+                {
+                    $travelRadiusValid = true;
+                    unset($_POST['travelRadius']);
+                }
+            }
+            if (!$travelRadiusValid)
+            {
+                $travelRadiusPresent = true;
+                $travelRadiusValid = validate_travel_radius($_POST['travelRadius']);
+                if (!$travelRadiusValid)
+                {
+                    $formIsValid = false;
+                    $errors["travelRadius"] = "Travel radius is invalid.";
+                }
+            }
+        }
+        else
+        {
+            if (!empty($formName) && ($formName == "serviceProvider" || $formName == "postJob"))
+            {
+                $errors["travelRadius"] = "Travel radius is missing.";
+            }
+            else
+                $travelRadiusValid = true;
+        }
+
+        if (!empty($_POST['serviceToSwap']))
+        {
+            $serviceToSwapValid = validate_service_to_swap($_POST['serviceToSwap']);
+            if (!$serviceToSwapValid)
+            {
+                $formIsValid = false;
+                $errors["swapService"] = "Service to swap is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postJob")
+                $errors["price"] = "Price is missing.";
+        }
+
+        if (!empty($_POST['timeAvailable']))
+        {
+            $timeAvailableValid = validate_time_available($_POST['timeAvailable']);
+            if (!$timeAvailableValid)
+            {
+                $formIsValid = false;
+                $errors["timeAvailable"] = "Time available is invalid.";
+            }
+        }
+        else
+        {
+            if ($formName == "postJob")
+                $errors["price"] = "Price is missing.";
+        }
+
+
+
+        /*********************************************
+         *
+         * Begin checks to determine if form is valid
+         *
+         *********************************************
+        */
         if ($formName == "postService")
         {
             if ($jobTitleValid && $descriptionValid && $categoryValid && $priceValid && $tagsValid)
@@ -423,6 +487,22 @@ function validateForm() {
                 }
             }
         }
+        elseif ($formName == "postJob")
+        {
+            if ($jobTitleValid && $priceValid  && $biddingValid && $categoryValid && $tagsValid && $descriptionValid && $travelRadiusValid && $serviceToSwapValid && $pictureValid && $timeAvailableValid)
+            {
+                $formIsValid = true;
+            }
+            else
+            {
+                $ps_fields = array("jobTitle", "description", "category", "price", "tags", "timeAvailable", "swapService", "bidding", "travelRadius", "picture");
+                foreach ($errors as $k => $v)
+                {
+                    if (!in_array($k, $ps_fields))
+                        unset($errors[$k]);
+                }
+            }
+        }
         else 
         {
             if ($firstNameValid && $lastNameValid && $addressOneValid && $addressTwoValid && $nicknameValid && $travelRadiusValid && $pictureValid && $cityValid && $stateValid && $zipValid && $countryValid && $dobValid && $phoneValid && $emailValid && $phoneTypeValid && $usernameValid && $passwordValid && $termsValid && $prefContactMethodValid)
@@ -432,12 +512,24 @@ function validateForm() {
         }
     }
 
+    /**************************************
+     *
+     * Return boolean true or errors array
+     *
+     **************************************
+    */
     if (!$formIsValid)
         return $errors;
     else
         return $formIsValid;
 }
 
+/**********************************
+ *
+ * Begin validation functions
+ *
+ **********************************
+*/
 function validate_first_name($fname)
 {
     if (!empty($fname))
@@ -721,7 +813,6 @@ function validate_category($category)
 {
     if (!empty($category))
     {
-        $catArr = array('Yard Work','Business','Repairs','Creative','Beauty','Mechanical','Automotive','Computers','Event','Household','Labor / Moving','Legal','Lessons','Marine','Pets');
         if (in_array($category, $catArr))
             return true;
         else
@@ -772,6 +863,40 @@ function validate_tags($tags)
     }
     else
         return false;
+}
+
+function validate_service_to_swap($service)
+{
+    if (empty($service))
+    {
+        return false;
+    }
+    else
+    {
+        if (preg_match('/^[a-zA-Z0-9 ]{1,200}$/', $service))
+            return true;
+        else
+            return false;
+    }
+}
+
+function validate_time_available($time)
+{
+    if (empty($time))
+    {
+        return false;
+    }
+    else
+    {
+        if ($time == "any" || $time == "cal")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 function filter_bad_words($str, $type)

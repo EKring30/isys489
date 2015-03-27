@@ -4,17 +4,18 @@
     $.post("login.php", $("#formLogin").serialize(), function(data) {
       if (data)
       {
-        if (data == "success")
+        data = $.parseJSON(data);
+        if (data.msg == "success")
         {
-          location.href = "index.php";
+          location.href = data.url;
         }
         else
         {
-          alert(data);
+          alert(data.msg);
         }
       }
     });
-  })';
+  });';
 ?>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -33,11 +34,10 @@
             <li<?php if ($page == "index") {?> class="active"<?php } ?>><a href="index.php">Home</a></li>
             <li<?php if ($page == "about") {?> class="active"<?php } ?>><a href="#about">About</a></li>
             <li<?php if ($page == "contact") {?> class="active"<?php } ?>><a href="#contact">Contact</a></li>
-            <li<?php if ($page == "test") {?> class="active"<?php } ?>><a href="test_form.php">Test Form</a></li>
+            <?php
+              if (empty($_SESSION['username'])) { ?>
           </ul>
           <ul class="navbar-nav nav pull-right">
-            <?php
-              if (empty($_SESSION['user'])) { ?>
             <li class="dropdown<?php if ($page == "login") {?> active<?php }?>" id="menuLogin">
               <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Login <b class="caret"></b></a>
               <div class="dropdown-menu" style="padding:17px;">
@@ -50,8 +50,12 @@
               </div>
             </li>
             <?php } else { ?>
+            <li<?php if ($page == "test") {?> class="active"<?php } ?>><a href="test_form.php">Test Form</a></li>
+            <li<?php if ($page == "post_job") {?> class="active"<?php } ?>><a href="post_job.php">Post a Job</a></li>
+          </ul>
+          <ul class="navbar-nav nav pull-right">
               <li><a name="user">Hello, <?php echo $_SESSION["username"] ?></a></li>
-              <li><a href="logout.php">Logout</a></li>
+              <li><a href="logout.php?logout">Logout</a></li>
             <?php } ?>
           </ul>
         </div><!--/.nav-collapse -->
