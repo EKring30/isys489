@@ -6,7 +6,7 @@
 // $myDB = "isys489";
 
 /* prod */
-$myHost = "localhost";
+$myHost = "db.willc0de4food.com";
 $myUser = "isys489c_hansent";
 $myPass = "Z(ZQbTW-gvoV";
 $myDB = "isys489c_GR_ServiceDB";
