@@ -22,36 +22,44 @@
 			$fingerprint = md5('KrC6fV8Y5xNG5:R'.$_SERVER['HTTP_USER_AGENT']);
 
 			$stmt = $my_dbhandle->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
-			$stmt->bind_param("ss", $_POST['username'], md5($_POST['pwd']));
-			if (!$stmt->execute()) {
-			    echo "There was an error logging in. Please contact the system administrator.";
-			}
-			$stmt->bind_result($id);
-
-			$stmt->fetch();
-			if (!empty($id))
+			if (!$stmt)
 			{
-				if (!empty($referer) && strpos($referer, "logout") === FALSE)
-				{
-					$rtrn["url"] = $referer;
-				}
-				else
-				{
-					$rtrn["url"] = "index.php";
-				}
-
-				unset($_GET);
-				$_SESSION['last_active'] = time();
-				$_SESSION['fingerprint'] = $fingerprint;
-				$_SESSION['username'] = $_POST['username'];
-				$rtrn["msg"] = "success";
+				$rtrn["msg"] = "Database error - please contact your system administrator.";
 				echo json_encode($rtrn);
 			}
 			else
 			{
-		    	$rtrn["msg"] = "Error - invalid username or password.";
-		    	echo json_encode($rtrn);
-		    }
+				$stmt->bind_param("ss", $_POST['username'], md5($_POST['pwd']));
+				if (!$stmt->execute()) {
+				    echo "There was an error logging in. Please contact the system administrator.";
+				}
+				$stmt->bind_result($id);
+
+				$stmt->fetch();
+				if (!empty($id))
+				{
+					if (!empty($referer) && strpos($referer, "logout") === FALSE)
+					{
+						$rtrn["url"] = $referer;
+					}
+					else
+					{
+						$rtrn["url"] = "index.php";
+					}
+
+					unset($_GET);
+					$_SESSION['last_active'] = time();
+					$_SESSION['fingerprint'] = $fingerprint;
+					$_SESSION['username'] = $_POST['username'];
+					$rtrn["msg"] = "success";
+					echo json_encode($rtrn);
+				}
+				else
+				{
+			    	$rtrn["msg"] = "Error - invalid username or password.";
+			    	echo json_encode($rtrn);
+			    }
+			}
 		}
 		else
 		{
