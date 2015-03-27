@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	include('includes/global-vars.php');
 	$title = "Index";
 	$page = "index";
