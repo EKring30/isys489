@@ -5,7 +5,7 @@ include('./includes/validations.php');
 
 $newPassword = $_POST['newPassword'];
 $confirmNewPassword = $_POST['confirmNewPassword'];
-$passwordIsValid = validate_password($candidate);
+$passwordIsValid = validate_password($_POST['newPassword']);
 
 if ( $passwordIsValid ){
 	if( $newPassword == $confirmNewPassword ){
