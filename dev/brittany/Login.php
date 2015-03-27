@@ -1,7 +1,3 @@
-
-<!DOCTYPE html>
-<html>
-<body>
 <?php
 session_start();
 include('includes/database.php');
@@ -21,7 +17,7 @@ else if(empty($_POST['password']))
     {
         echo "Error- Please enter Password.";
     }
-     
+	
 else
    {
 	   
@@ -39,8 +35,4 @@ else
 	 echo "success";
 	 }//end of inner else
    }//end of else
-    
-
 ?>
-</body>
-</html>

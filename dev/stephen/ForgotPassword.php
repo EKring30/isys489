@@ -10,7 +10,7 @@
 </div>
 
 <div id="login_form">
-    <form name="f1" method="post" action="./Scripts/ResetPassword.php" id="f1">
+    <form name="f1" method="post" action="handleForgotPassword.php" id="f1">
         <table>
 		    <tr>
                 <td>Before resetting your password, we have to verify that it's really you on the other side of the keyboard.<br>
@@ -19,10 +19,16 @@
             </tr>
 		</table>
 
-<?php if ( isset($_SESSION['badEmailAddress'])) : ?>
+
+<?php if ( isset($_SESSION['badPasswordResetEmail'])) : ?>
 	<table><tr><br><tr><table><table><tr>THE EMAIL YOU ENTERED WAS INVALID...<tr><table><table><tr><br><tr><table>
 <?php endif; ?>
-<?php unset($_SESSION['badEmailAddress']); ?>
+<?php unset($_SESSION['badPasswordResetEmail']); ?>
+<?php if ( isset($_SESSION['badPasswordResetEmail1'])) : ?>
+	<table><tr><br><tr><table><table><tr>THE EMAIL YOU ENTERED WAS INVALID because it isn't even real...<tr><table><table><tr><br><tr><table>
+<?php endif; ?>
+<?php unset($_SESSION['badPasswordResetEmail1']); ?>
+
 		<table>
             <tr>
                 <td class="f1_label">Your email address here:</td><td><input type="text" placeholder="johndoe@gmail.com" name="passwordResetEmail" value="" />
