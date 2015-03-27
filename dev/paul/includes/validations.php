@@ -461,14 +461,14 @@ function validate_nickname($nickname)
     
 }
 
-function validate_username($username)
+function validate_userName($userName)
 {
-    if (!empty($username))
+    if (!empty($userName))
     {
         global $my_dbhandle;
         // prepare and bind
-        $stmt = $my_dbhandle->prepare("SELECT username FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
+        $stmt = $my_dbhandle->prepare("SELECT userName FROM users WHERE userName = ?");
+        $stmt->bind_param("s", $userName);
         $stmt->execute();
         $stmt->bind_result($user);
         $stmt->fetch();

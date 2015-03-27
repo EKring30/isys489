@@ -73,7 +73,7 @@ form {
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
   // from: http://coursesweb.net/ajax/
-  var phpcheck = 'check_first.php'; // Here add the php file that validate the form element
+  var phpcheck = 'signupCheck.php'; // Here add the php file that validate the form element
   var err = {}; // stores form elements name, with value of 1 for invalid, and value 0 for valid
 
   // change the css class of elm

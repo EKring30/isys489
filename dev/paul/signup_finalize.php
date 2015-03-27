@@ -51,7 +51,7 @@ form {
 </style>
 
 <h1>Register To Use Our Services </h1>
-<form action="" method="POST" onsubmit="return formIsReady(this);">
+<form action="createUser.php" method="POST" onsubmit="return formIsReady(this);">
 	<p>Full Name (First Last): <input type="text" name="fullName" id="fullName" size="25" maxlength="40" 
 			value="<?php include_once('HumanNameParser/init.php');
 							if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName'];
@@ -79,7 +79,7 @@ form {
 // object to validate form fields when they lose focus, via Ajax
 var checkFormElm = function() {
   // from: http://coursesweb.net/ajax/
-  var phpcheck = 'check_final.php'; // Here add the php file that validate the form element
+  var phpcheck = 'signupCheck.php'; // Here add the php file that validate the form element
   var err = {}; // stores form elements name, with value of 1 for invalid, and value 0 for valid
 
   // change the css class of elm
@@ -166,11 +166,6 @@ include_once('includes/validations.php'); // Master field/form validation script
 
 if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName'];
 
-// Declare/Initialize VARS
-$servername = "isys489c_GR_ServiceDB";
-$username = "gerndtp";
-$password = "cU^8vQ=12ro0";
-$dbname = "isys489c_GR_ServiceDB";
 if(isset($_REQUEST['fullName'])) $fn = parseName($n, 'F');
 if(isset($_REQUEST['zipCode'])) $ln = parseName($n, 'L');
 if(isset($_REQUEST['email'])) $em = $_REQUEST['email'];
@@ -206,54 +201,7 @@ if(isset($_REQUEST['zipCode'])) $zip = $_REQUEST['zipCode'];
 		echo $value;
 	}
 	}
-
-// Perform Validations
-// Parse Name
-/*
-echo $fn . '<br>';
-echo $ln . '<br>';
-echo $em. '<br>';
-echo $pw . '<br>';
-echo $dob . '<br>';
-echo $un . '<br>';
-echo $zip . '<br>';
-
-
-
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// prepare and bind
-$stmt = $conn->prepare("INSERT INTO MyGuests (firstname, lastname, email) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $firstname, $lastname, $email);
-
-// set parameters and execute
-$firstname = "John";
-$lastname = "Doe";
-$email = "john@example.com";
-$stmt->execute();
-
-$firstname = "Mary";
-$lastname = "Moe";
-$email = "mary@example.com";
-$stmt->execute();
-
-$firstname = "Julie";
-$lastname = "Dooley";
-$email = "julie@example.com";
-$stmt->execute();
-
-echo "New records created successfully";
-
-$stmt->close();
-$conn->close();*/
-
+	
 ?>
 
 </html>
