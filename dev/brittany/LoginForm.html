@@ -18,17 +18,8 @@
 <label for='password' >Password:</label>
 <input type='password' name='password' id='password' maxlength="50" />
 <button 
-onclick = "RedirectFunction()">Forgot Your Password?
+onclick = "echo "<meta http-equiv=\"refresh\" content=\"0;URL=./PasswordRequestEmailed.php\">";">Forgot Your Password?
 </button>
-<script>
-function RedirectFunction()
-{
-<%
-Response.Redirect "https://trello.com/c/odjB20Dm/46-5-user-forgets-their-password-and-requests-a-change-estimate-5"
-%>
-}
-<br>
-</script>
 <label for ='CHECKBOX' ></label>
 <INPUT TYPE=CHECKBOX NAME="KeepLogin">Keep Me Logged in.<br>
 <input type='submit' name='Submit' value='Submit' />
