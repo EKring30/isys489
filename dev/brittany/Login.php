@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('includes/mysqli_connect.php');
-include('includes/header.php');
 global $my_dbhandle;
 global $dbc;
 
@@ -22,7 +21,7 @@ elseif(empty($_POST['password']))
 else
 { 
 	$stmt = $conn->prepare("SELECT dUsername, dPassword FROM users WHERE username = ? AND password = ?");
-	 $stmt -> bind_param("ss", $_POST['username'], "ss",$_POST['password']);
+	 $stmt -> bind_param("ss", $_POST['username'], md5($_POST['password']);
 	 $res = $stmt->get_result();
 	 if (!$res)
 	 {
