@@ -19,38 +19,42 @@ include('includes/validations.php');
  <form name="my_form" action="process_form.php" method="post">
   <fieldset>
   <table width="1086" height="26" border="0">
-    
+  <caption align="left"><span class="style2">Provider-Consumer Jobs</span>
+  </caption>
+  
+  <tr>
+    <th width="99" scope="col"><div align="left">Categories</div></th>
+    <th width="977" scope="col">Search</th>
   </tr>
 </table>
 
-  <legend>
-   
-   <div align="left">
-     <select name="Categories">
-       <option value="Categories" selected="selected">Categories</option>
-       <option value="Automotive">Automotive Services</option>
-       <option value="Beauty Services">Beauty Services</option>
-       <option value="Computer Services">Computer Services</option>
-       <option value="Creative Services">Creative Services</option>
-       <option value="Cleaning Services">Cleaning Services</option>
-       <option value="Cycling Services">Cycling Services</option>
-       <option value="Event Services">Event Services</option>
-       <option value="Farming">Farming</option>
-       <option value="Farm Garden Services">Farm &amp;Garden Services</option>
-       <option value="Financial Services">Financial Services</option>
-       <option value="Labor Services">Labor Services</option>
-       <option value="Lessons Tutoring Services">Lessons &amp;Tutoring Services</option>
-       <option value="Marine Services">Marine Services</option>
-       <option value="Pet Services">Pet Services</option>
-       <option value="Real Estate Services">Real Estate Services</option>
-       <option value="Skilled Trade Services">Skilled Trade Services</option>
-       <option value="Small Biz Ad Services">Small Biz Ad Services</option>
-       <option value="Therapeutic Services">Therapeutic Services</option>
-       <option value="Travel Services">Travel Services</option>
-     </select>
-   </div>
-     </legend>
+  <legend></legend>
 
+   
+     <div align="left">
+<select name="Categories">
+<option value="Categories" selected="selected">Categories</option>
+<option value="Automotive">Automotive Services</option>
+<option value="Beauty Services">Beauty Services</option>
+<option value="Computer Services">Computer Services</option>
+<option value="Creative Services">Creative Services</option>
+<option value="Cleaning Services">Cleaning Services</option>
+<option value="Cycling Services">Cycling Services</option>
+<option value="Event Services">Event Services</option>
+<option value="Farming">Farming</option>
+<option value="Farm Garden Services">Farm &amp;Garden Services</option>
+<option value="Financial Services">Financial Services</option>
+<option value="Labor Services">Labor Services</option>
+<option value="Lessons Tutoring Services">Lessons &amp;Tutoring Services</option>
+<option value="Marine Services">Marine Services</option>
+<option value="Pet Services">Pet Services</option>
+<option value="Real Estate Services">Real Estate Services</option>
+<option value="Skilled Trade Services">Skilled Trade Services</option>
+<option value="Small Biz Ad Services">Small Biz Ad Services</option>
+<option value="Therapeutic Services">Therapeutic Services</option>
+<option value="Travel Services">Travel Services</option>
+</select>
+</div>
   <p><br />
   <br />
   <span class="style3">Description Of Service</span><br />
