@@ -1,28 +1,28 @@
 <?php
-include_once '/includes/database.php';
-include_once '/HumanNameParser/init.php';
+include_once 'includes/database.php';
+include_once 'HumanNameParser/init.php';
 
 // Initialize Variables
-if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName'];
-if(isset($_REQUEST['fullName'])) $fn = parseName($n, 'F');
-if(isset($_REQUEST['zipCode'])) $ln = parseName($n, 'L');
-if(isset($_REQUEST['email'])) $em = $_REQUEST['email'];
-if(isset($_REQUEST['password'])) $pw = $_REQUEST['password'];
-if(isset($_REQUEST['dob'])) $dob = $_REQUEST['dob'];
-if(isset($_REQUEST['userName'])) $un = $_REQUEST['userName'];
-if(isset($_REQUEST['zipCode'])) $zip = $_REQUEST['zipCode'];
+$GoodToGo = True;
+if(isset($_REQUEST['fullName'])) $n = $_REQUEST['fullName']; else $GoodToGo = False;
+if(isset($_REQUEST['fullName'])) $fn = parseName($n, 'F'); else $GoodToGo = False;
+if(isset($_REQUEST['fullName'])) $ln = parseName($n, 'L'); else $GoodToGo = False;
+if(isset($_REQUEST['email'])) $em = $_REQUEST['email']; else $GoodToGo = False;
+if(isset($_REQUEST['password'])) $pw = $_REQUEST['password']; else $GoodToGo = False;
+if(isset($_REQUEST['dob'])) $dob = $_REQUEST['dob']; else $GoodToGo = False;
+if(isset($_REQUEST['userName'])) $un = $_REQUEST['userName']; else $GoodToGo = False;
+if(isset($_REQUEST['zipCode'])) $zip = $_REQUEST['zipCode']; else $GoodToGo = False;
 
 // Write record to the database
 
 //create_user('humpty','dumpty','1975-03-02','49509','dumpty2@ferris.edu','dumpty2','abc123!!!');
-create_user($fn, $ln, $dob, $zip, $em, $un, $pw);
-
+if($GoodToGo) create_user($fn, $ln, $dob, $zip, $em, $un, $pw);
 
 function create_user($fn, $ln, $dob, $zip, $em, $un, $pw )
 {
         global $my_dbhandle;
         // prepare and bind
-        $stmt = $my_dbhandle->prepare("INSERT INTO `users` (`firstName`, `lastName`, `userName`, `password`, `email`, `zip`, `dob`) VALUES (?, ?, ?, md5(?), ?, ?, ?)");
+        $stmt = $my_dbhandle->prepare("INSERT INTO `User_Account` (`User_F_Name`, `User_L_Name`, `User_Name`, `User_Password_Current`, `User_Email`, `User_Zip`, `User_Birthdate`, `User_Locked_Out`, `User_Country_ID`, `User_Acc_Created_Date`, `Terms_Condition`, `Active`) VALUES (?, ?, ?, md5(?), ?, ?, ?, 0, 185, CURRENT_TIMESTAMP, 1, 1)");
         //$stmt = $my_dbhandle->prepare("INSERT INTO users ('firstName', 'lastName', 'userName', 'password', 'email', 'zip', 'dob') VALUES (':fn', ':ln', ':dob', ':zip', ':em', ':un', ':pw' )");
         if($stmt != false) // DB NEW SQL Object Call was Successful
 		{
@@ -69,3 +69,20 @@ function create_user($fn, $ln, $dob, $zip, $em, $un, $pw )
 	}
 	}
 ?>
+
+<html>
+<form action="index.html" method="post" id="loginForm">
+<input type="hidden" name="username" value="user [at] domain.com">
+<input type="hidden" name="password" value="mycleartextpassword">
+<input type="submit" name="Authenticate" value="Login">
+<input type="hidden" name="Action" value="1" >
+</form>
+
+<script type="text/javascript">
+    function myfunc () {
+        var frm = document.getElementById("loginForm");
+        frm.submit();
+    }
+    window.onload = myfunc;
+</script>
+</html>

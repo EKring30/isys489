@@ -7,8 +7,8 @@
 
 /* prod */
 $myHost = "localhost";
-$myUser = "Brittany";
-$myPass = "Bbstrya180";
+$myUser = "root";
+$myPass = "root";
 $myDB = "isys489";
 
 //connection to the mysql database

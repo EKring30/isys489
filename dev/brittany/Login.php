@@ -1,24 +1,30 @@
 <?php
 session_start();
+<<<<<<< HEAD
 include('includes/database.php');
 //include('includes/header.php');
+=======
+include('includes/mysqli_connect.php');
+>>>>>>> origin/master
 global $my_dbhandle;
+global $dbc;
 
-if($my_dbhandle->connect_error)
+if($dbc->connect_error)
 	{
-		die("Connection failed: ". $my_dbhandle->connect_error);
+		die("Connection failed: ". $dbc->connect_error);
 	}
-else if(empty($_POST['username']))
+elseif(empty($_POST['username']))
     {
        echo "Error- Please enter Email.";
 	}
      
-else if(empty($_POST['password']))
+elseif(empty($_POST['password']))
     {
         echo "Error- Please enter Password.";
     }
 	
 else
+<<<<<<< HEAD
    {
 	   
 	 //look up username and password in db
@@ -49,3 +55,21 @@ else
 	}	//end of inner else
    }//end of else
 ?>
+=======
+{ 
+	$stmt = $conn->prepare("SELECT dUsername, dPassword FROM users WHERE username = ? AND password = ?");
+	 $stmt -> bind_param("ss", $_POST['username'], md5($_POST['password']);
+	 $res = $stmt->get_result();
+	 if (!$res)
+	 {
+		 echo "Error- invalid username or password.";
+	 }//end of if
+	 else
+	 {
+		 $_SESSION['username'] = $_POST['username'];
+		 echo "success";
+	 }
+}
+?>
+ 
+>>>>>>> origin/master

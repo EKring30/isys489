@@ -467,7 +467,7 @@ function validate_userName($userName)
     {
         global $my_dbhandle;
         // prepare and bind
-        $stmt = $my_dbhandle->prepare("SELECT userName FROM users WHERE userName = ?");
+        $stmt = $my_dbhandle->prepare("SELECT User_Name FROM User_Account WHERE User_Name = ?");
         $stmt->bind_param("s", $userName);
         $stmt->execute();
         $stmt->bind_result($user);
